@@ -5,7 +5,14 @@
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="client" class="com.epam.danilchican.Client"/>
+    <bean id="client" class="com.epam.danilchican.Client">
+        <constructor-arg value="1"/>
+        <constructor-arg value="John Smith"/>
+    </bean>
+
     <bean id="eventLogger" class="com.epam.danilchican.logger.impl.ConsoleEventLogger"/>
-    <bean id="app" class="com.epam.danilchican.App"/>
+    <bean id="app" class="com.epam.danilchican.App">
+        <constructor-arg ref="client"/>
+        <constructor-arg ref="eventLogger"/>
+    </bean>
 </beans>
