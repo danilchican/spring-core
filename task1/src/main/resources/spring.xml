@@ -11,18 +11,26 @@
     </bean>
 
     <bean id="event" class="com.epam.danilchican.Event" scope="prototype">
-
         <constructor-arg>
             <bean class="java.util.Date"/>
         </constructor-arg>
-
         <constructor-arg>
             <bean class="java.text.DateFormat" factory-method="getDateTimeInstance"/>
         </constructor-arg>
-
     </bean>
 
     <bean id="eventLogger" class="com.epam.danilchican.logger.impl.ConsoleEventLogger"/>
+
+    <bean id="fileEventLogger" class="com.epam.danilchican.logger.impl.FileEventLogger" init-method="init">
+        <constructor-arg value="logs.txt"/>
+    </bean>
+
+    <bean id="cacheFileEventLogger" class="com.epam.danilchican.logger.impl.CacheFileEventLogger"
+          init-method="init"
+          destroy-method="destroy">
+        <constructor-arg value="logs.txt"/>
+        <constructor-arg value="2"/>
+    </bean>
 
     <bean id="app" class="com.epam.danilchican.App">
         <constructor-arg ref="client"/>
