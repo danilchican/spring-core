@@ -1,5 +1,7 @@
 package com.epam.danilchican;
 
+import com.epam.danilchican.logger.impl.ConsoleEventLogger;
+
 public class App {
     private Client client;
     private ConsoleEventLogger eventLogger;
