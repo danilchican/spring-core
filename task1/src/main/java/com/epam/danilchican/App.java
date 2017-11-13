@@ -1,9 +1,12 @@
 package com.epam.danilchican;
 
+import com.epam.danilchican.config.AppConfig;
 import com.epam.danilchican.event.Event;
 import com.epam.danilchican.event.EventType;
 import com.epam.danilchican.logger.EventLogger;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
@@ -28,7 +31,11 @@ public class App {
     }
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+        //ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+
+        ConfigurableApplicationContext ctx =
+                new AnnotationConfigApplicationContext(AppConfig.class);
+
         App app = (App) ctx.getBean("app");
         System.out.println(app.client);
         Event event = (Event) ctx.getBean("event");
@@ -40,7 +47,7 @@ public class App {
         EventLogger logger = loggers.get(type);
 
         if(logger == null) {
-            logger = defaultLogger;
+            logger = eventLogger;
         }
 
         logger.logEvent(event);
