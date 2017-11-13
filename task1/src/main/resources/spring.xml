@@ -16,7 +16,7 @@
     <bean id="client" class="com.epam.danilchican.Client">
         <constructor-arg value="${id}"/>
         <constructor-arg value="${name}"/>
-        <property name="greeting" value="${greeting}"/>
+        <property name="greeting" value="#{ systemEnvironment['USERNAME'] }"/>
     </bean>
 
     <bean id="event" class="com.epam.danilchican.event.Event" scope="prototype">
@@ -37,7 +37,9 @@
                 <entry key="ERROR" value-ref="combinedEventLogger"/>
             </map>
         </constructor-arg>
-        <property name="defaultLogger" ref="cacheFileEventLogger"/>
+
+        <property name="eventLogger"
+                  value="#{ T(com.epam.danilchican.event.Event).isDay() ? fileEventLogger : eventLogger }"/>
     </bean>
 
     <context:annotation-config/>

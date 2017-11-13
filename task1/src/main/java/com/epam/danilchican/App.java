@@ -1,12 +1,9 @@
 package com.epam.danilchican;
 
-import com.epam.danilchican.config.AppConfig;
 import com.epam.danilchican.event.Event;
 import com.epam.danilchican.event.EventType;
 import com.epam.danilchican.logger.EventLogger;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
@@ -15,7 +12,6 @@ public class App {
     private Client client;
     private EventLogger eventLogger;
     private Map<EventType, EventLogger> loggers;
-    private EventLogger defaultLogger;
 
     public App() {
     }
@@ -26,15 +22,13 @@ public class App {
         this.loggers = loggers;
     }
 
-    public void setDefaultLogger(EventLogger defaultLogger) {
-        this.defaultLogger = defaultLogger;
+    public void setEventLogger(EventLogger eventLogger) {
+        this.eventLogger = eventLogger;
     }
 
     public static void main(String[] args) {
-        //ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
-
-        ConfigurableApplicationContext ctx =
-                new AnnotationConfigApplicationContext(AppConfig.class);
+        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+        //ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
         App app = (App) ctx.getBean("app");
         System.out.println(app.client);
