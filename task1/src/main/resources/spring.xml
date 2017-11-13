@@ -10,6 +10,7 @@
     <bean id="client" class="com.epam.danilchican.Client">
         <constructor-arg value="1"/>
         <constructor-arg value="John Smith"/>
+        <property name="greeting" value="Some greeting name"/>
     </bean>
 
     <bean id="event" class="com.epam.danilchican.event.Event" scope="prototype">
@@ -24,5 +25,12 @@
     <bean id="app" class="com.epam.danilchican.App">
         <constructor-arg ref="client"/>
         <constructor-arg ref="eventLogger"/>
+        <constructor-arg>
+            <map>
+                <entry key="INFO" value-ref="eventLogger"/>
+                <entry key="ERROR" value-ref="combinedEventLogger"/>
+            </map>
+        </constructor-arg>
+        <property name="defaultLogger" ref="cacheFileEventLogger"/>
     </bean>
 </beans>

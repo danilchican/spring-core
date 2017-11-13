@@ -11,7 +11,7 @@ public class Event {
     private DateFormat df;
 
     public Event() {
-        this.id = new Random().nextInt() * 100;
+        this.id = new Random().nextInt();
     }
 
     public Event(Date date, DateFormat df) {

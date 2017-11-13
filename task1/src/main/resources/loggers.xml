@@ -19,4 +19,14 @@
         <constructor-arg value="2"/>
     </bean>
 
+    <bean id="combinedEventLogger" class="com.epam.danilchican.logger.impl.CombinedEventLogger">
+        <constructor-arg>
+            <list>
+                <ref bean="eventLogger"/>
+                <ref bean="fileEventLogger"/>
+                <ref bean="cacheFileEventLogger"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
 </beans>

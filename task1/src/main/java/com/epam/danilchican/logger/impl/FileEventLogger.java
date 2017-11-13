@@ -23,7 +23,7 @@ public class FileEventLogger implements EventLogger {
 
     public void logEvent(Event event) {
         try {
-            FileUtils.writeStringToFile(new File(filename), event.toString(),"utf-8", true);
+            FileUtils.writeStringToFile(new File(filename), event.toString() + "\n","utf-8", true);
         } catch (IOException e) {
             e.printStackTrace();
         }
