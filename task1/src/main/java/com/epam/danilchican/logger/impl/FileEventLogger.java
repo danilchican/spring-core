@@ -1,6 +1,6 @@
 package com.epam.danilchican.logger.impl;
 
-import com.epam.danilchican.Event;
+import com.epam.danilchican.event.Event;
 import com.epam.danilchican.logger.EventLogger;
 import org.apache.commons.io.FileUtils;
 

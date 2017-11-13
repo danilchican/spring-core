@@ -1,4 +1,4 @@
-package com.epam.danilchican;
+package com.epam.danilchican.event;
 
 import java.text.DateFormat;
 import java.util.Date;

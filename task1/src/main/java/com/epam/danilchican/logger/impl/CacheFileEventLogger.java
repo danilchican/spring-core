@@ -1,6 +1,6 @@
 package com.epam.danilchican.logger.impl;
 
-import com.epam.danilchican.Event;
+import com.epam.danilchican.event.Event;
 
 import java.util.ArrayList;
 import java.util.List;

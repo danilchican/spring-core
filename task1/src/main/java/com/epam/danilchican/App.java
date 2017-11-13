@@ -1,5 +1,7 @@
 package com.epam.danilchican;
 
+import com.epam.danilchican.event.Event;
+import com.epam.danilchican.event.EventType;
 import com.epam.danilchican.logger.EventLogger;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -20,11 +22,11 @@ public class App {
         ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         App app = (App) ctx.getBean("app");
         Event event = (Event) ctx.getBean("event");
-        app.logEvent(event);
+        app.logEvent(event, EventType.ERROR);
         ctx.close();
     }
 
-    private void logEvent(Event event) {
+    private void logEvent(Event event, EventType type) {
         eventLogger.logEvent(event);
     }
 }
