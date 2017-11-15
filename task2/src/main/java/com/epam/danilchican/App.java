@@ -30,10 +30,11 @@ public class App {
         ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         //ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        App app = (App) ctx.getBean("app");
+        App app = ctx.getBean("app", App.class);
         System.out.println(app.client);
-        Event event = (Event) ctx.getBean("event");
+        Event event = ctx.getBean("event", Event.class);
         app.logEvent(event, EventType.ERROR);
+
         ctx.close();
     }
 
