@@ -14,5 +14,4 @@ public class DomainObject {
     public void setId(Long id) {
         this.id = id;
     }
-
 }
