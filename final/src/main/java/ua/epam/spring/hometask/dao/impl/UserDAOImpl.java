@@ -1,20 +1,22 @@
 package ua.epam.spring.hometask.dao.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.dao.UserDAO;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.util.UserIdIncrementator;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    // TODO qualifier + autowired?.. should have
-    private static Map<Long, User> users = new HashMap<>();
+    @Autowired
+    @Qualifier("users")
+    private static Map<Long, User> users;
 
     @Override
     public Optional<User> getUserByEmail(String email) {
