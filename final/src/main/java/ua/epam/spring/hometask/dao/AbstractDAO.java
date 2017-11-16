@@ -5,7 +5,7 @@ import ua.epam.spring.hometask.domain.DomainObject;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface AbstractDAO<T extends DomainObject> {
+interface AbstractDAO<T extends DomainObject> {
 
     /**
      * Saving new object to dao or updating existing one
