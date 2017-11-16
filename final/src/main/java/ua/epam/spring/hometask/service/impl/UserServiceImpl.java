@@ -1,16 +1,20 @@
 package ua.epam.spring.hometask.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ua.epam.spring.hometask.dao.UserDAO;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.UserService;
-import ua.epam.spring.hometask.storage.UserStorage;
-import ua.epam.spring.hometask.util.UserIdIncrementator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.Map;
 
+@Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserDAO userDAO;
 
     /**
      * Finding user by email
@@ -21,63 +25,49 @@ public class UserServiceImpl implements UserService {
     @Nullable
     @Override
     public User getUserByEmail(@Nonnull String email) {
-        Map<Long, User> users = UserStorage.getUsers();
-
-        Map.Entry<Long, User> userEntry = users.entrySet().stream()
-                .filter(e -> e.getValue() != null && e.getValue().getEmail().equals(email))
-                .findFirst()
-                .orElse(null);
-
-        return userEntry != null
-                ? userEntry.getValue()
-                : null;
+        return userDAO.getUserByEmail(email).orElse(null);
     }
 
     /**
-     * Saving new object to storage or updating existing one
+     * Saving new object to dao or updating existing one
      *
      * @param object Object to save
      * @return saved object with assigned id
      */
     @Override
     public User save(@Nonnull User object) {
-        Map<Long, User> users = UserStorage.getUsers();
-
-        object.setId(UserIdIncrementator.next());
-        users.put(object.getId(), object);
-
-        return object;
+        return userDAO.save(object).orElse(null);
     }
 
     /**
-     * Removing object from storage
+     * Removing object from dao
      *
      * @param object Object to remove
      */
     @Override
     public void remove(@Nonnull User object) {
-        UserStorage.getUsers().remove(object.getId());
+        userDAO.remove(object);
     }
 
     /**
-     * Getting object by id from storage
+     * Getting object by id from dao
      *
      * @param id id of the object
      * @return Found object or <code>null</code>
      */
     @Override
     public User getById(@Nonnull Long id) {
-        return UserStorage.getUsers().get(id);
+        return userDAO.getById(id).orElse(null);
     }
 
     /**
-     * Getting all objects from storage
+     * Getting all objects from dao
      *
      * @return collection of objects
      */
     @Nonnull
     @Override
     public Collection<User> getAll() {
-        return UserStorage.getUsers().values();
+        return userDAO.getAll();
     }
 }

@@ -1,16 +1,11 @@
-package ua.epam.spring.hometask.service;
-
-import java.util.Collection;
-
-import javax.annotation.Nonnull;
+package ua.epam.spring.hometask.dao;
 
 import ua.epam.spring.hometask.domain.DomainObject;
 
-/**
- * @param <T> DomainObject subclass
- * @author Yuriy_Tkach
- */
-public interface AbstractDomainObjectService<T extends DomainObject> {
+import java.util.Collection;
+import java.util.Optional;
+
+public interface AbstractDAO<T extends DomainObject> {
 
     /**
      * Saving new object to dao or updating existing one
@@ -18,14 +13,14 @@ public interface AbstractDomainObjectService<T extends DomainObject> {
      * @param object Object to save
      * @return saved object with assigned id
      */
-    T save(@Nonnull T object);
+    Optional<T> save(T object);
 
     /**
      * Removing object from dao
      *
      * @param object Object to remove
      */
-    void remove(@Nonnull T object);
+    void remove(T object);
 
     /**
      * Getting object by id from dao
@@ -33,13 +28,12 @@ public interface AbstractDomainObjectService<T extends DomainObject> {
      * @param id id of the object
      * @return Found object or <code>null</code>
      */
-    T getById(@Nonnull Long id);
+    Optional<T> getById(Long id);
 
     /**
      * Getting all objects from dao
      *
      * @return collection of objects
      */
-    @Nonnull
     Collection<T> getAll();
 }

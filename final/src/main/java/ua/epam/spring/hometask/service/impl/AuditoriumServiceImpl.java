@@ -2,7 +2,7 @@ package ua.epam.spring.hometask.service.impl;
 
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.service.AuditoriumService;
-import ua.epam.spring.hometask.storage.AuditoriumStorage;
+import ua.epam.spring.hometask.dao.impl.AuditoriumStorageImpl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,7 +18,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     @Nonnull
     @Override
     public Set<Auditorium> getAll() {
-        return AuditoriumStorage.getAuditoriums();
+        return AuditoriumStorageImpl.getAuditoriums();
     }
 
     /**
@@ -30,7 +30,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     @Nullable
     @Override
     public Auditorium getByName(@Nonnull String name) {
-        Set<Auditorium> auditoriums = AuditoriumStorage.getAuditoriums();
+        Set<Auditorium> auditoriums = AuditoriumStorageImpl.getAuditoriums();
 
         return auditoriums.stream()
                 .filter(a -> a != null && name.equals(a.getName()))
