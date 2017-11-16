@@ -1,7 +1,5 @@
 package ua.epam.spring.hometask.dao.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.dao.UserDAO;
 import ua.epam.spring.hometask.domain.User;
@@ -9,13 +7,12 @@ import ua.epam.spring.hometask.util.UserIdIncrementator;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    @Autowired
-    @Qualifier("users")
     private static Map<Long, User> users;
 
     public void setUsers(Map<Long, User> usersMap) {
@@ -25,7 +22,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public Optional<User> getUserByEmail(String email) {
         return users.entrySet().stream()
-                .filter(e -> e != null && email.equals(e.getValue().getEmail()))
+                .filter(Objects::nonNull)
+                .filter(user -> email.equals(user.getValue().getEmail()))
                 .map(Map.Entry::getValue)
                 .findFirst();
     }
@@ -34,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
     public Optional<User> save(User object) {
         Optional<User> foundedUser = getById(object.getId());
 
-        if(!foundedUser.isPresent()) {
+        if (!foundedUser.isPresent()) {
             object.setId(UserIdIncrementator.next());
             foundedUser = Optional.of(object);
         }
@@ -51,7 +49,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public Optional<User> getById(Long id) {
         return users.entrySet().stream()
-                .filter(e -> e != null && id.equals(e.getValue().getId()))
+                .filter(Objects::nonNull)
+                .filter(user -> id.equals(user.getValue().getId()))
                 .map(Map.Entry::getValue)
                 .findFirst();
     }
