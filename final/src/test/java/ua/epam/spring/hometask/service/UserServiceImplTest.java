@@ -1,54 +1,44 @@
 package ua.epam.spring.hometask.service;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import ua.epam.spring.hometask.dao.UserDAO;
 import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.service.impl.UserServiceImpl;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring.xml"})
+@RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
     @Mock
     private UserDAO userDAO;
 
-    @Autowired
-    @InjectMocks
-    private UserService userService;
+    @Mock
+    private User user;
 
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-    }
+    @InjectMocks
+    private final UserService userService = new UserServiceImpl();
 
     @Test
-    public void getUserByEmailSuccessScenarioTest() throws Exception {
-        User expected = new User();
-        when(userDAO.getUserByEmail(anyString())).thenReturn(Optional.of(expected));
+    public void getUserByEmail_ReturnsOptionalUser_WhenUserWithSuchEmailExists() throws Exception {
+        when(userDAO.getUserByEmail(anyString())).thenReturn(Optional.of(user));
 
         User actual = userService.getUserByEmail("danilchican@mail.ru");
-        assertEquals(expected, actual);
+        assertEquals(user, actual);
     }
 
     @Test
-    public void getUserByEmailFirstFailureScenarioTest() throws Exception {
+    public void getUserByEmail_ReturnsEmpty_WhenUserWithSuchEmailDoesntExists() throws Exception {
         when(userDAO.getUserByEmail(anyString())).thenReturn(Optional.empty());
         User actual = userService.getUserByEmail("danilchican@mail.ru");
 
@@ -56,7 +46,7 @@ public class UserServiceImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getUserByEmailSecondFailureScenarioTest() throws Exception {
+    public void getUserByEmail_InvalidEmail_ExceptionThrown() throws Exception {
         userService.getUserByEmail(null);
     }
 }

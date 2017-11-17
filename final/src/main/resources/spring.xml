@@ -8,11 +8,36 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <import resource="dao.xml"/>
+    <bean id="userDAO" class="ua.epam.spring.hometask.dao.impl.UserDAOImpl">
+        <property name="users">
+            <map>
+                <entry key="0">
+                    <bean class="ua.epam.spring.hometask.domain.User">
+                        <property name="id" value="0"/>
+                        <property name="email" value="danilchican@mail.ru"/>
+                        <property name="firstName" value="Uladzislau"/>
+                        <property name="lastName" value="Danilchyk"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
-    <bean id="userService" class="ua.epam.spring.hometask.service.impl.UserServiceImpl"/>
-    <bean id="auditoriumService" class="ua.epam.spring.hometask.service.impl.AuditoriumServiceImpl"/>
+    <bean id="auditoriumDAO" class="ua.epam.spring.hometask.dao.impl.AuditoriumDAOImpl">
+        <property name="auditoriums">
+            <set>
+                <bean class="ua.epam.spring.hometask.domain.Auditorium">
+                    <property name="name" value="Aud 1"/>
+                    <property name="numberOfSeats" value="2"/>
+                </bean>
+                <bean class="ua.epam.spring.hometask.domain.Auditorium">
+                    <property name="name" value="Aud 2"/>
+                    <property name="numberOfSeats" value="51"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
 
-    <context:annotation-config/>
+    <context:component-scan base-package="ua.epam.spring.hometask"/>
 
 </beans>
