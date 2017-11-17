@@ -127,6 +127,19 @@ public class Event extends DomainObject {
                 .anyMatch(dt -> dt.toLocalDate().compareTo(from) >= 0 && dt.toLocalDate().compareTo(to) <= 0);
     }
 
+    /**
+     * Checking if event airs on dates between <code>from</code> and
+     * <code>to</code> inclusive
+     *
+     * @param from Start date to check
+     * @param to   End date to check
+     * @return <code>true</code> event airs on dates
+     */
+    public boolean airsOnDates(LocalDateTime from, LocalDateTime to) {
+        return airDates.stream()
+                .anyMatch(dt -> dt.compareTo(from) >= 0 && dt.compareTo(to) <= 0);
+    }
+
     public String getName() {
         return name;
     }

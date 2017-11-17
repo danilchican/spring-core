@@ -8,6 +8,7 @@ import ua.epam.spring.hometask.util.EventIdIncrementator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class EventDAOImpl implements EventDAO {
@@ -28,14 +29,20 @@ public class EventDAOImpl implements EventDAO {
 
     @Override
     public Set<Event> getForDateRange(LocalDate from, LocalDate to) {
-        // TODO
-        return null;
+        return events.stream()
+                .filter(Objects::nonNull)
+                .filter(event -> event.airsOnDates(from, to))
+                .collect(Collectors.toSet());
     }
 
     @Override
     public Set<Event> getNextEvents(LocalDateTime to) {
-        // TODO
-        return null;
+        LocalDateTime from = LocalDateTime.now();
+
+        return events.stream()
+                .filter(Objects::nonNull)
+                .filter(event -> event.airsOnDates(from, to))
+                .collect(Collectors.toSet());
     }
 
     @Override
