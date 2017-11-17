@@ -9,6 +9,7 @@ import ua.epam.spring.hometask.service.UserService;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,8 +25,8 @@ public class UserServiceImpl implements UserService {
      */
     @Nullable
     @Override
-    public User getUserByEmail(@Nonnull String email) {
-        return userDAO.getUserByEmail(email).orElse(null);
+    public Optional<User> getUserByEmail(@Nonnull String email) {
+        return userDAO.getUserByEmail(email);
     }
 
     /**
@@ -35,8 +36,8 @@ public class UserServiceImpl implements UserService {
      * @return saved object with assigned id
      */
     @Override
-    public User save(@Nonnull User object) {
-        return userDAO.save(object).orElse(null);
+    public Optional<User> save(@Nonnull User object) {
+        return userDAO.save(object);
     }
 
     /**
@@ -56,8 +57,8 @@ public class UserServiceImpl implements UserService {
      * @return Found object or <code>null</code>
      */
     @Override
-    public User getById(@Nonnull Long id) {
-        return userDAO.getById(id).orElse(null);
+    public Optional<User> getById(@Nonnull Long id) {
+        return userDAO.getById(id);
     }
 
     /**

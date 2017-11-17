@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
@@ -18,7 +19,7 @@ public interface AbstractDomainObjectService<T extends DomainObject> {
      * @param object Object to save
      * @return saved object with assigned id
      */
-    T save(@Nonnull T object);
+    Optional<T> save(@Nonnull T object);
 
     /**
      * Removing object from dao
@@ -33,7 +34,7 @@ public interface AbstractDomainObjectService<T extends DomainObject> {
      * @param id id of the object
      * @return Found object or <code>null</code>
      */
-    T getById(@Nonnull Long id);
+    Optional<T> getById(@Nonnull Long id);
 
     /**
      * Getting all objects from dao
