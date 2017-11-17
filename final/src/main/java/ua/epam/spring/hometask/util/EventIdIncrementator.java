@@ -1,6 +1,6 @@
 package ua.epam.spring.hometask.util;
 
-public class UserIdIncrementator {
+public class EventIdIncrementator {
     private static Long id;
 
     public static Long next() {
