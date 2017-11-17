@@ -8,6 +8,7 @@ import ua.epam.spring.hometask.service.AuditoriumService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -35,7 +36,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
      */
     @Nullable
     @Override
-    public Auditorium getByName(@Nonnull String name) {
-        return auditoriumDAO.getByName(name).orElse(null);
+    public Optional<Auditorium> getByName(@Nonnull String name) {
+        return auditoriumDAO.getByName(name);
     }
 }

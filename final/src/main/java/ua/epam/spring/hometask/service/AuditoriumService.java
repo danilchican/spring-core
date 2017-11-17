@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -27,5 +28,5 @@ public interface AuditoriumService {
      * @return found auditorium or <code>null</code>
      */
     @Nullable
-    Auditorium getByName(@Nonnull String name);
+    Optional<Auditorium> getByName(@Nonnull String name);
 }
