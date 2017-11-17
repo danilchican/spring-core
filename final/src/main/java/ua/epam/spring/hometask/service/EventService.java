@@ -7,6 +7,7 @@ import ua.epam.spring.hometask.domain.Event;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -21,7 +22,7 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * @return found event or <code>null</code>
      */
     @Nullable
-    Event getByName(@Nonnull String name);
+    Optional<Event> getByName(@Nonnull String name);
 
     /**
      * Finding all events that air on specified date range
