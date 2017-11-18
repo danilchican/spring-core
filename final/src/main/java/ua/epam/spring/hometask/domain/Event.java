@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.NavigableMap;
 import java.util.NavigableSet;

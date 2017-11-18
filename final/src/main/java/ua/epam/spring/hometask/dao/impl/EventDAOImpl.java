@@ -3,7 +3,6 @@ package ua.epam.spring.hometask.dao.impl;
 import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.domain.Event;
-import ua.epam.spring.hometask.util.EventIdIncrementator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
