@@ -26,8 +26,8 @@ public interface BookingService {
      * @param seats    Set of seat numbers that user wants to buy
      * @return total price
      */
-    double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user,
-                           @Nonnull Set<Long> seats);
+    double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime,
+                           @Nullable User user, @Nonnull Set<Long> seats);
 
     /**
      * Books tickets in internal system. If user is not
