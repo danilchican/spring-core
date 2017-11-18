@@ -123,8 +123,7 @@ public class Event extends DomainObject {
      * @return <code>true</code> event airs on dates
      */
     public boolean airsOnDates(LocalDate from, LocalDate to) {
-        return airDates.stream()
-                .anyMatch(dt -> dt.toLocalDate().compareTo(from) >= 0 && dt.toLocalDate().compareTo(to) <= 0);
+        return airDates.stream().anyMatch(dt -> dateInRange(dt.toLocalDate(), from, to));
     }
 
     /**
@@ -136,8 +135,31 @@ public class Event extends DomainObject {
      * @return <code>true</code> event airs on dates
      */
     public boolean airsOnDates(LocalDateTime from, LocalDateTime to) {
-        return airDates.stream()
-                .anyMatch(dt -> dt.compareTo(from) >= 0 && dt.compareTo(to) <= 0);
+        return airDates.stream().anyMatch(dt -> dateTimeInRange(dt, from, to));
+    }
+
+    /**
+     * Checking if date in range.
+     *
+     * @param current Current date to check
+     * @param from    Start date to check
+     * @param to      End date to check
+     * @return <code>true</code> date in range
+     */
+    public boolean dateInRange(LocalDate current, LocalDate from, LocalDate to) {
+        return current.compareTo(from) >= 0 && current.compareTo(to) <= 0;
+    }
+
+    /**
+     * Checking if datetime in range.
+     *
+     * @param current Current datetime to check
+     * @param from    Start datetime to check
+     * @param to      End datetime to check
+     * @return <code>true</code> datetime in range
+     */
+    public boolean dateTimeInRange(LocalDateTime current, LocalDateTime from, LocalDateTime to) {
+        return current.compareTo(from) >= 0 && current.compareTo(to) <= 0;
     }
 
     public String getName() {
