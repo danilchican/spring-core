@@ -27,7 +27,7 @@ public class EventDAOImpl implements EventDAO {
     public Set<Event> getForDateRange(LocalDate from, LocalDate to) {
         return events.stream()
                 .filter(Objects::nonNull)
-                .filter(event -> event.airsOnDates(from, to))
+                .filter(event -> airsOnDates(event.getAirDates(), from, to))
                 .collect(Collectors.toSet());
     }
 
@@ -37,7 +37,7 @@ public class EventDAOImpl implements EventDAO {
 
         return events.stream()
                 .filter(Objects::nonNull)
-                .filter(event -> event.airsOnDates(from, to))
+                .filter(event -> airsOnDates(event.getAirDates(), from, to))
                 .collect(Collectors.toSet());
     }
 

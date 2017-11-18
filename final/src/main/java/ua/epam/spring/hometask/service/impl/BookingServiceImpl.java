@@ -2,6 +2,7 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.BookingService;
@@ -20,6 +21,9 @@ public class BookingServiceImpl implements BookingService {
     private TicketDAO ticketDAO;
 
     @Autowired
+    private EventDAO eventDAO;
+
+    @Autowired
     private DiscountService discountService;
 
     private double vipSeatCoefficient;
@@ -31,7 +35,7 @@ public class BookingServiceImpl implements BookingService {
                                   @Nullable User user, @Nonnull Set<Long> seats) {
         int countSeats = seats.size();
 
-        Auditorium auditorium = event.findAuditoriumOnDateTime(dateTime);
+        Auditorium auditorium = eventDAO.findAuditoriumOnDateTime(event.getAuditoriums(), dateTime);
 
         if (auditorium == null) {
             throw new IllegalArgumentException("There is no auditorium for particular date and time.");
