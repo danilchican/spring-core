@@ -28,13 +28,19 @@ public class UserDAOImpl implements UserDAO {
     public Optional<User> save(User object) {
         Optional<User> foundedUser = getById(object.getId());
 
-        if (!foundedUser.isPresent()) {
-            object.setId(UserIdIncrementator.next());
-            foundedUser = Optional.of(object);
+        if (foundedUser.isPresent()) {
+            return update(foundedUser.get(), object);
         }
 
-        users.put(foundedUser.get().getId(), foundedUser.get());
+        // TODO id
+        users.put(object.getId(), object);
         return foundedUser;
+    }
+
+    @Override
+    public Optional<User> update(User old, User object) {
+        users.put(object.getId(), object);
+        return Optional.of(object);
     }
 
     @Override

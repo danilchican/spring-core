@@ -45,15 +45,21 @@ public class EventDAOImpl implements EventDAO {
     public Optional<Event> save(Event object) {
         Optional<Event> foundedEvent = getById(object.getId());
 
-        // TODO fix updating
-
-        if (!foundedEvent.isPresent()) {
-            object.setId(EventIdIncrementator.next());
-            foundedEvent = Optional.of(object);
+        if (foundedEvent.isPresent()) {
+            return update(foundedEvent.get(), object);
         }
 
-        events.add(foundedEvent.get());
-        return foundedEvent;
+        // TODO id
+        events.add(object);
+        return Optional.of(object);
+    }
+
+    @Override
+    public Optional<Event> update(Event old, Event object) {
+        events.remove(old);
+        events.add(object);
+
+        return Optional.of(object);
     }
 
     @Override

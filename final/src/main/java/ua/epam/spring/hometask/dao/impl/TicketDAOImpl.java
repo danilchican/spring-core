@@ -17,8 +17,23 @@ public class TicketDAOImpl implements TicketDAO {
 
     @Override
     public Optional<Ticket> save(Ticket object) {
-        // TODO save & update
-        return null;
+        Optional<Ticket> foundedTicket = getById(object.getId());
+
+        if (foundedTicket.isPresent()) {
+            return update(foundedTicket.get(), object);
+        }
+
+        // TODO id
+        tickets.add(object);
+        return Optional.of(object);
+    }
+
+    @Override
+    public Optional<Ticket> update(Ticket old, Ticket object) {
+        tickets.remove(old);
+        tickets.add(object);
+
+        return Optional.of(object);
     }
 
     @Override

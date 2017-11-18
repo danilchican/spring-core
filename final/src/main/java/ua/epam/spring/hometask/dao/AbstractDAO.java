@@ -16,6 +16,15 @@ interface AbstractDAO<T extends DomainObject> {
     Optional<T> save(T object);
 
     /**
+     * Updating existing object
+     *
+     * @param object old Object
+     * @param object Object to update
+     * @return updated object
+     */
+    Optional<T> update(T old, T object);
+
+    /**
      * Removing object from dao
      *
      * @param object Object to remove
