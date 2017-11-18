@@ -9,6 +9,8 @@ import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.service.impl.EventServiceImpl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -60,8 +62,34 @@ public class EventServiceImplTest {
         eventService.getByName(null);
     }
 
-    // TODO getForDateRange()
-    // TODO getNextEvents()
+    @Test
+    public void getForDateRange_ReturnsCollectionOfEventsIncludedInRage_WhenCollectionIsNotNull() throws Exception {
+        LocalDate from = LocalDate.of(2016, 4, 10);
+        LocalDate to = LocalDate.of(2017, 2, 20);
+        when(eventDAO.getForDateRange(from, to)).thenReturn(events);
+
+        Collection<Event> collection = eventService.getForDateRange(from, to);
+        assertThat(collection, is(notNullValue()));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getForDateRange_InvalidDates_ExceptionThrown() throws Exception {
+        eventService.getForDateRange(null, null);
+    }
+
+    @Test
+    public void getNextEvents_ReturnsCollectionOfEventsFromNowToDate_WhenCollectionIsNotNull() throws Exception {
+        LocalDateTime to = LocalDateTime.now();
+        when(eventDAO.getNextEvents(to)).thenReturn(events);
+
+        Collection<Event> collection = eventService.getNextEvents(to);
+        assertThat(collection, is(notNullValue()));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getNextEvents_InvalidDate_ExceptionThrown() throws Exception {
+        eventService.getNextEvents(null);
+    }
 
     @Test
     public void save_ReturnsSavedOrUpdatedEvent_WhenEventPassed() throws Exception {
