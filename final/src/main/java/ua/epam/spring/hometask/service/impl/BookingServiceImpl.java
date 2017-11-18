@@ -45,12 +45,7 @@ public class BookingServiceImpl implements BookingService {
             throw new IllegalArgumentException("There is no auditorium for particular date and time.");
         }
 
-        long countVipSeats = auditoriumDAO.countVipSeats(auditorium.getVipSeats(), seats);
-        long countStandardSeats = countSeats - countVipSeats;
-
-        double eventPriceWithRating = ratingCoefficients.get(event.getRating()) * event.getBasePrice();
-        double eventPrice = eventPriceWithRating * (countStandardSeats + countVipSeats * vipSeatCoefficient);
-
+        double eventPrice = calculateEventPrice(event, auditorium, seats, countSeats);
         double eventDiscountPercent = discountService.getDiscount(user, event, dateTime, countSeats);
 
         return calculateEventPriceByDiscountPercent(eventPrice, eventDiscountPercent);
@@ -58,9 +53,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
-        for (Ticket ticket : tickets) {
-            ticketDAO.save(ticket);
-        }
+        tickets.forEach(ticket -> ticketDAO.save(ticket));
     }
 
     @Nonnull
@@ -69,17 +62,26 @@ public class BookingServiceImpl implements BookingService {
         return ticketDAO.getPurchasedTicketsForEvent(event, dateTime);
     }
 
-    public void setVipSeatCoefficient(double vipSeatCoefficient) {
-        this.vipSeatCoefficient = vipSeatCoefficient;
-    }
+    private double calculateEventPrice(Event event, Auditorium auditorium, Set<Long> seats, int countSeats) {
+        long countVipSeats = auditoriumDAO.countVipSeats(auditorium.getVipSeats(), seats);
+        long countStandardSeats = countSeats - countVipSeats;
 
-    public void setRatingCoefficients(Map<EventRating, Double> ratingCoefficientsMap) {
-        ratingCoefficients = ratingCoefficientsMap;
+        double eventPriceWithRating = ratingCoefficients.get(event.getRating()) * event.getBasePrice();
+
+        return eventPriceWithRating * (countStandardSeats + countVipSeats * vipSeatCoefficient);
     }
 
     private double calculateEventPriceByDiscountPercent(double eventPrice, double eventDiscountPercent) {
         double eventDiscount = eventPrice * eventDiscountPercent / 100;
 
         return eventPrice - eventDiscount;
+    }
+
+    public void setVipSeatCoefficient(double vipSeatCoefficient) {
+        this.vipSeatCoefficient = vipSeatCoefficient;
+    }
+
+    public void setRatingCoefficients(Map<EventRating, Double> ratingCoefficientsMap) {
+        ratingCoefficients = ratingCoefficientsMap;
     }
 }
