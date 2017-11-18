@@ -24,6 +24,16 @@ public class Event extends DomainObject {
     private NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
 
     /**
+     * Get auditorium on particular <code>dateTime</code>
+     *
+     * @param dateTime Date and time of aired event
+     * @return auditorium on particular <code>dateTime</code>
+     */
+    public Auditorium findAuditoriumOnDateTime(LocalDateTime dateTime) {
+        return auditoriums.get(dateTime);
+    }
+
+    /**
      * Checks if event is aired on particular <code>dateTime</code> and assigns
      * auditorium to it.
      *
