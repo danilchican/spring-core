@@ -15,10 +15,6 @@ public class UserDAOImpl implements UserDAO {
 
     private static Map<Long, User> users;
 
-    public void setUsers(Map<Long, User> usersMap) {
-        users = usersMap;
-    }
-
     @Override
     public Optional<User> getUserByEmail(String email) {
         return users.entrySet().stream()
@@ -58,5 +54,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public Collection<User> getAll() {
         return users.values();
+    }
+
+    public void setUsers(Map<Long, User> usersMap) {
+        users = usersMap;
     }
 }

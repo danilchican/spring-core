@@ -15,10 +15,6 @@ public class EventDAOImpl implements EventDAO {
 
     private static Set<Event> events;
 
-    public void setEvents(Set<Event> eventsSet) {
-        events = eventsSet;
-    }
-
     @Override
     public Optional<Event> getByName(String name) {
         return events.stream()
@@ -49,6 +45,8 @@ public class EventDAOImpl implements EventDAO {
     public Optional<Event> save(Event object) {
         Optional<Event> foundedEvent = getById(object.getId());
 
+        // TODO fix updating
+
         if (!foundedEvent.isPresent()) {
             object.setId(EventIdIncrementator.next());
             foundedEvent = Optional.of(object);
@@ -74,5 +72,9 @@ public class EventDAOImpl implements EventDAO {
     @Override
     public Collection<Event> getAll() {
         return events;
+    }
+
+    public void setEvents(Set<Event> eventsSet) {
+        events = eventsSet;
     }
 }

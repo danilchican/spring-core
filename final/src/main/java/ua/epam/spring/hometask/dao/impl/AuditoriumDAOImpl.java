@@ -13,10 +13,6 @@ public class AuditoriumDAOImpl implements AuditoriumDAO {
 
     private static Set<Auditorium> auditoriums;
 
-    public void setAuditoriums(Set<Auditorium> auditoriumsSet) {
-        auditoriums = auditoriumsSet;
-    }
-
     /**
      * Getting all auditoriums from the system
      *
@@ -39,5 +35,9 @@ public class AuditoriumDAOImpl implements AuditoriumDAO {
                 .filter(Objects::nonNull)
                 .filter(aud -> name.equals(aud.getName()))
                 .findFirst();
+    }
+
+    public void setAuditoriums(Set<Auditorium> auditoriumsSet) {
+        auditoriums = auditoriumsSet;
     }
 }
