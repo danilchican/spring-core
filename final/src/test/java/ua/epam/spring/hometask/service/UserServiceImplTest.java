@@ -72,7 +72,7 @@ public class UserServiceImplTest {
 
     @Test
     public void remove_ReturnsNothing_WhenUserPassed() throws Exception {
-        userDAO.remove(user);
+        userService.remove(user);
         verify(userDAO, times(1)).remove(user);
     }
 
