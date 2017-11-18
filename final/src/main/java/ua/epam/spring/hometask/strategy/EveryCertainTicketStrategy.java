@@ -7,9 +7,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 
-public class EveryNthStrategy implements DiscountStrategy {
+public class EveryCertainTicketStrategy implements DiscountStrategy {
 
-    private int nthTicketNumber;
+    private int ticketNumberToGetDiscount;
     private double discount;
 
     @Override
@@ -17,8 +17,8 @@ public class EveryNthStrategy implements DiscountStrategy {
                                     @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
         long bonusTickets = 0;
 
-        for (long i = 1; i <= numberOfTickets; i++) {
-            if (i % nthTicketNumber == 0) {
+        for (long currentTicketNumber = 1; currentTicketNumber <= numberOfTickets; currentTicketNumber++) {
+            if (ticketNumberHasDiscount(currentTicketNumber)) {
                 bonusTickets++;
             }
         }
@@ -26,12 +26,12 @@ public class EveryNthStrategy implements DiscountStrategy {
         return discount * bonusTickets / numberOfTickets;
     }
 
-    public int getNthTicketNumber() {
-        return nthTicketNumber;
+    public int getTicketNumberToGetDiscount() {
+        return ticketNumberToGetDiscount;
     }
 
-    public void setNthTicketNumber(int nthTicketNumber) {
-        this.nthTicketNumber = nthTicketNumber;
+    public void setTicketNumberToGetDiscount(int ticketNumberToGetDiscount) {
+        this.ticketNumberToGetDiscount = ticketNumberToGetDiscount;
     }
 
     public double getDiscount() {
@@ -40,5 +40,9 @@ public class EveryNthStrategy implements DiscountStrategy {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    private boolean ticketNumberHasDiscount(long currentTicketNumber) {
+        return currentTicketNumber % ticketNumberToGetDiscount == 0;
     }
 }
