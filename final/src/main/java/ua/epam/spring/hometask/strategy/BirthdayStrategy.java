@@ -1,4 +1,4 @@
-package ua.epam.spring.hometask.domain.discount;
+package ua.epam.spring.hometask.strategy;
 
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.User;
@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 
 public class BirthdayStrategy implements DiscountStrategy {
 
-    private byte discount;
+    private double discount;
     private byte allowedDaysDifference;
 
     @Override
-    public byte calculateDiscount(@Nullable User user, @Nonnull Event event,
+    public double calculateDiscount(@Nullable User user, @Nonnull Event event,
                                   @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
         int dayOfBirthday = user.getBirthday().getDayOfYear();
         int dayOfEvent = airDateTime.getDayOfYear();
@@ -27,11 +27,11 @@ public class BirthdayStrategy implements DiscountStrategy {
         return 0;
     }
 
-    public byte getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(byte discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
 

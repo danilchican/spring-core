@@ -1,4 +1,4 @@
-package ua.epam.spring.hometask.domain.discount;
+package ua.epam.spring.hometask.strategy;
 
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.User;
@@ -19,5 +19,5 @@ public interface DiscountStrategy {
      * @param numberOfTickets Number of tickets that user buys
      * @return discount value from 0 to 100
      */
-    byte calculateDiscount(@Nullable User user, @Nonnull Event event, @Nonnull LocalDateTime airDateTime, long numberOfTickets);
+    double calculateDiscount(@Nullable User user, @Nonnull Event event, @Nonnull LocalDateTime airDateTime, long numberOfTickets);
 }
