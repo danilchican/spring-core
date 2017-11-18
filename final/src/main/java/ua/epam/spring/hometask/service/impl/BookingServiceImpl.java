@@ -62,7 +62,8 @@ public class BookingServiceImpl implements BookingService {
         return ticketDAO.getPurchasedTicketsForEvent(event, dateTime);
     }
 
-    private double calculateEventPrice(Event event, Auditorium auditorium, Set<Long> seats, int countSeats) {
+    @Override
+    public double calculateEventPrice(@Nonnull Event event, @Nonnull Auditorium auditorium, @Nonnull Set<Long> seats, int countSeats) {
         long countVipSeats = auditoriumDAO.countVipSeats(auditorium.getVipSeats(), seats);
         long countStandardSeats = countSeats - countVipSeats;
 
@@ -71,7 +72,8 @@ public class BookingServiceImpl implements BookingService {
         return eventPriceWithRating * (countStandardSeats + countVipSeats * vipSeatCoefficient);
     }
 
-    private double calculateEventPriceByDiscountPercent(double eventPrice, double eventDiscountPercent) {
+    @Override
+    public double calculateEventPriceByDiscountPercent(double eventPrice, double eventDiscountPercent) {
         double eventDiscount = eventPrice * eventDiscountPercent / 100;
 
         return eventPrice - eventDiscount;

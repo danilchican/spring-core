@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
@@ -46,4 +47,24 @@ public interface BookingService {
      */
     @Nonnull
     Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime);
+
+    /**
+     * Calculate event price.
+     *
+     * @param event
+     * @param auditorium
+     * @param seats
+     * @param countSeats
+     * @return event price
+     */
+    double calculateEventPrice(@Nonnull Event event, @Nonnull Auditorium auditorium, @Nonnull Set<Long> seats, int countSeats);
+
+    /**
+     * Calculate event price by discount percent.
+     *
+     * @param eventPrice
+     * @param eventDiscountPercent
+     * @return event price with discount
+     */
+    double calculateEventPriceByDiscountPercent(double eventPrice, double eventDiscountPercent);
 }
