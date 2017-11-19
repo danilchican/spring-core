@@ -3,7 +3,6 @@ package ua.epam.spring.hometask.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.dao.AuditoriumDAO;
-import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.BookingService;
@@ -20,9 +19,6 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private TicketDAO ticketDAO;
-
-    @Autowired
-    private EventDAO eventDAO;
 
     @Autowired
     private AuditoriumDAO auditoriumDAO;
