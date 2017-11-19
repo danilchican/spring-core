@@ -3,6 +3,7 @@ package ua.epam.spring.hometask.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.dao.EventDAO;
+import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.service.EventService;
 
@@ -10,9 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -36,6 +35,38 @@ public class EventServiceImpl implements EventService {
     @Override
     public Set<Event> getNextEvents(@Nonnull LocalDateTime to) {
         return eventDAO.getNextEvents(to);
+    }
+
+    @Override
+    public boolean assignAuditorium(Event event, LocalDateTime dateTime, Auditorium auditorium) {
+        NavigableSet<LocalDateTime> airDates = event.getAirDates();
+        NavigableMap<LocalDateTime, Auditorium> auditoriums = event.getAuditoriums();
+
+        if (airDates.contains(dateTime)) {
+            auditoriums.put(dateTime, auditorium);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean removeAirDateTime(Event event, LocalDateTime dateTime) {
+        NavigableSet<LocalDateTime> airDates = event.getAirDates();
+        NavigableMap<LocalDateTime, Auditorium> auditoriums = event.getAuditoriums();
+
+        boolean isRemoved = airDates.remove(dateTime);
+
+        if (isRemoved) {
+            auditoriums.remove(dateTime);
+        }
+
+        return isRemoved;
+    }
+
+    @Override
+    public boolean removeAuditoriumAssignment(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime) {
+        return auditoriums.remove(dateTime) != null;
     }
 
     @Override

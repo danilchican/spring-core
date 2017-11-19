@@ -71,6 +71,7 @@ public interface EventDAO extends AbstractDAO<Event> {
      * @return <code>true</code> event airs on that date
      */
     default boolean airsOnDate(NavigableSet<LocalDateTime> airDates, LocalDate date) {
+        //TODO Remove when integrated with DB.
         return airDates.stream().anyMatch(dt -> dt.toLocalDate().equals(date));
     }
 
@@ -82,6 +83,7 @@ public interface EventDAO extends AbstractDAO<Event> {
      * @return <code>true</code> event airs on that date and time
      */
     default boolean airsOnDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime) {
+        //TODO Remove when integrated with DB.
         return airDates.stream().anyMatch(dt -> dt.equals(dateTime));
     }
 
@@ -107,68 +109,6 @@ public interface EventDAO extends AbstractDAO<Event> {
      */
     default boolean dateInRange(LocalDate current, LocalDate from, LocalDate to) {
         return current.compareTo(from) >= 0 && current.compareTo(to) <= 0;
-    }
-
-    /**
-     * Get auditorium on particular <code>dateTime</code>
-     *
-     * @param auditoriums auditoriums for event
-     * @param dateTime    Date and time of aired event
-     * @return auditorium on particular <code>dateTime</code>
-     */
-    default Auditorium findAuditoriumOnDateTime(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime) {
-        return auditoriums.get(dateTime);
-    }
-
-    /**
-     * Checks if event is aired on particular <code>dateTime</code> and assigns
-     * auditorium to it.
-     *
-     * @param airDates    air dates of event
-     * @param auditoriums auditoriums for event
-     * @param dateTime    Date and time of aired event for which to assign
-     * @param auditorium  Auditorium that should be assigned
-     * @return <code>true</code> if successful, <code>false</code> if event is
-     * not aired on that date
-     */
-    default boolean assignAuditorium(NavigableSet<LocalDateTime> airDates, NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime, Auditorium auditorium) {
-        if (airDates.contains(dateTime)) {
-            auditoriums.put(dateTime, auditorium);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Removes the date and time of event air. If auditorium was assigned to
-     * that date and time - the assignment is also removed
-     *
-     * @param airDates    air dates of event
-     * @param auditoriums auditoriums for event
-     * @param dateTime    Date and time to remove
-     * @return <code>true</code> if successful, <code>false</code> if not there
-     */
-    default boolean removeAirDateTime(NavigableSet<LocalDateTime> airDates, NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime) {
-        boolean result = airDates.remove(dateTime);
-
-        if (result) {
-            auditoriums.remove(dateTime);
-        }
-
-        return result;
-    }
-
-    /**
-     * Removes auditorium assignment from event
-     *
-     * @param auditoriums auditoriums for event
-     * @param dateTime    Date and time to remove auditorium for
-     * @return <code>true</code> if successful, <code>false</code> if not
-     * removed
-     */
-    default boolean removeAuditoriumAssignment(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime) {
-        return auditoriums.remove(dateTime) != null;
     }
 
     /**

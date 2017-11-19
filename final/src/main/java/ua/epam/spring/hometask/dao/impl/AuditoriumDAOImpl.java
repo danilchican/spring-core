@@ -4,6 +4,8 @@ import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.dao.AuditoriumDAO;
 import ua.epam.spring.hometask.domain.Auditorium;
 
+import java.time.LocalDateTime;
+import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -35,6 +37,11 @@ public class AuditoriumDAOImpl implements AuditoriumDAO {
                 .filter(Objects::nonNull)
                 .filter(aud -> name.equals(aud.getName()))
                 .findFirst();
+    }
+
+    @Override
+    public Auditorium findAuditoriumOnDateTime(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime) {
+        return auditoriums.get(dateTime);
     }
 
     public void setAuditoriums(Set<Auditorium> auditoriumsSet) {

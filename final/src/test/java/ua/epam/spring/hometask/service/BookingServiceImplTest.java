@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import ua.epam.spring.hometask.dao.AuditoriumDAO;
 import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.Auditorium;
@@ -31,6 +32,9 @@ public class BookingServiceImplTest {
 
     @Mock
     private TicketDAO ticketDAO;
+
+    @Mock
+    private AuditoriumDAO auditoriumDAO;
 
     @Mock
     private Event event;
@@ -62,11 +66,11 @@ public class BookingServiceImplTest {
     public void getTicketsPrice_ReturnsTicketsPrice_WhenArgumentsAreValid() throws Exception {
         LocalDateTime dateTime = LocalDateTime.now();
 
-        when(eventDAO.findAuditoriumOnDateTime(event.getAuditoriums(), dateTime)).thenReturn(auditorium);
+        when(auditoriumDAO.findAuditoriumOnDateTime(event.getAuditoriums(), dateTime)).thenReturn(auditorium);
         // TODO fails when(bookingService.calculateEventPrice(event, auditorium, seats, anyInt())).thenReturn(anyDouble());
         bookingService.getTicketsPrice(event, dateTime, user, seats);
 
-        verify(eventDAO, times(1)).findAuditoriumOnDateTime(event.getAuditoriums(), dateTime);
+        verify(auditoriumDAO, times(1)).findAuditoriumOnDateTime(event.getAuditoriums(), dateTime);
         verify(bookingService, times(1)).calculateEventPrice(event, auditorium, seats, anyInt());
     }
 

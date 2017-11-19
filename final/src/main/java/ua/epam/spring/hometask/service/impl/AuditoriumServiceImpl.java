@@ -10,6 +10,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 @Service
 public class AuditoriumServiceImpl implements AuditoriumService {
@@ -38,5 +40,19 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     @Override
     public Optional<Auditorium> getByName(@Nonnull String name) {
         return auditoriumDAO.getByName(name);
+    }
+
+    /**
+     * Getting all seats from range.
+     *
+     * @param numberOfSeats
+     * @return set of seats
+     */
+    @Nonnull
+    @Override
+    public Set<Long> getAllSeats(long numberOfSeats) {
+        return LongStream.range(1, numberOfSeats + 1)
+                .boxed()
+                .collect(Collectors.toSet());
     }
 }

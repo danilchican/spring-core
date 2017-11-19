@@ -2,7 +2,9 @@ package ua.epam.spring.hometask.dao;
 
 import ua.epam.spring.hometask.domain.Auditorium;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.NavigableMap;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,6 +28,15 @@ public interface AuditoriumDAO {
     Optional<Auditorium> getByName(String name);
 
     /**
+     * Get auditorium on particular <code>dateTime</code>
+     *
+     * @param auditoriums auditoriums for event
+     * @param dateTime    Date and time of aired event
+     * @return auditorium on particular <code>dateTime</code>
+     */
+    Auditorium findAuditoriumOnDateTime(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime);
+
+    /**
      * Counts how many vip seats are there in supplied <code>seats</code>
      *
      * @param vipSeats Vip seats to process
@@ -34,17 +45,5 @@ public interface AuditoriumDAO {
      */
     default long countVipSeats(Set<Long> vipSeats, Collection<Long> seats) {
         return seats.stream().filter(vipSeats::contains).count();
-    }
-
-    /**
-     * Getting all seats from range.
-     *
-     * @param numberOfSeats
-     * @return set of seats
-     */
-    default Set<Long> getAllSeats(long numberOfSeats) {
-        return LongStream.range(1, numberOfSeats + 1)
-                .boxed()
-                .collect(Collectors.toSet());
     }
 }

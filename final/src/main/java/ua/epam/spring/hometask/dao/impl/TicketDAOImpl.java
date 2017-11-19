@@ -57,16 +57,14 @@ public class TicketDAOImpl implements TicketDAO {
     @Nonnull
     @Override
     public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
-        Set<Ticket> tempTickets = tickets.stream().filter(Objects::nonNull).collect(Collectors.toSet());
-
-        return filterPurchasedTicketsForEvent(tempTickets, event, dateTime);
+        return tickets.stream()
+                .filter(Objects::nonNull)
+                .filter(ticket -> filterPurchasedTicketsForEvent(ticket, event, dateTime))
+                .collect(Collectors.toSet());
     }
 
-    private Set<Ticket> filterPurchasedTicketsForEvent(Set<Ticket> tickets, Event event, LocalDateTime dateTime) {
-        return tickets.stream()
-                .filter(ticket -> Objects.equals(ticket.getEvent(), event))
-                .filter(ticket -> Objects.equals(ticket.getDateTime(), dateTime))
-                .collect(Collectors.toSet());
+    private boolean filterPurchasedTicketsForEvent(Ticket ticket, Event event, LocalDateTime dateTime) {
+        return Objects.equals(ticket.getEvent(), event) && Objects.equals(ticket.getDateTime(), dateTime);
     }
 
     public void setTickets(Set<Ticket> ticketsSet) {

@@ -2,6 +2,8 @@ package ua.epam.spring.hometask.service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,4 +31,14 @@ public interface AuditoriumService {
      */
     @Nullable
     Optional<Auditorium> getByName(@Nonnull String name);
+
+
+    /**
+     * Getting all seats from range.
+     *
+     * @param numberOfSeats
+     * @return set of seats
+     */
+    @Nonnull
+    Set<Long> getAllSeats(long numberOfSeats);
 }

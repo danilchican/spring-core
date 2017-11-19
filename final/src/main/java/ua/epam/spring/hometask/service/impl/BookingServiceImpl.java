@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
                                   @Nullable User user, @Nonnull Set<Long> seats) {
         int countSeats = seats.size();
 
-        Auditorium auditorium = eventDAO.findAuditoriumOnDateTime(event.getAuditoriums(), dateTime);
+        Auditorium auditorium = auditoriumDAO.findAuditoriumOnDateTime(event.getAuditoriums(), dateTime);
 
         if (auditorium == null) {
             throw new IllegalArgumentException("There is no auditorium for particular date and time.");
@@ -53,7 +53,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
-        tickets.forEach(ticket -> ticketDAO.save(ticket));
+        tickets.forEach(ticketDAO::save);
     }
 
     @Nonnull
@@ -62,8 +62,17 @@ public class BookingServiceImpl implements BookingService {
         return ticketDAO.getPurchasedTicketsForEvent(event, dateTime);
     }
 
-    @Override
-    public double calculateEventPrice(@Nonnull Event event, @Nonnull Auditorium auditorium, @Nonnull Set<Long> seats, int countSeats) {
+    /**
+     * Calculate event price.
+     *
+     * @param event      Calculate price for event
+     * @param auditorium Auditorium to get count of vip seats
+     * @param seats      Set of seat numbers that user wants to buy
+     * @param countSeats Count of all seats in auditorium
+     * @return event price
+     */
+    private double calculateEventPrice(@Nonnull Event event, @Nonnull Auditorium auditorium,
+                                       @Nonnull Set<Long> seats, int countSeats) {
         long countVipSeats = auditoriumDAO.countVipSeats(auditorium.getVipSeats(), seats);
         long countStandardSeats = countSeats - countVipSeats;
 
@@ -72,8 +81,14 @@ public class BookingServiceImpl implements BookingService {
         return eventPriceWithRating * (countStandardSeats + countVipSeats * vipSeatCoefficient);
     }
 
-    @Override
-    public double calculateEventPriceByDiscountPercent(double eventPrice, double eventDiscountPercent) {
+    /**
+     * Calculate event price by discount percent.
+     *
+     * @param eventPrice           Event price without discount
+     * @param eventDiscountPercent Event discount percent
+     * @return Event price with discount
+     */
+    private double calculateEventPriceByDiscountPercent(double eventPrice, double eventDiscountPercent) {
         double eventDiscount = eventPrice * eventDiscountPercent / 100;
 
         return eventPrice - eventDiscount;
