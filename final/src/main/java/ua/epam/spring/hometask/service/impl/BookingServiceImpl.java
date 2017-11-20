@@ -11,6 +11,7 @@ import ua.epam.spring.hometask.service.DiscountService;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,7 +70,7 @@ public class BookingServiceImpl implements BookingService {
      */
     private double calculateEventPrice(@Nonnull Event event, @Nonnull Auditorium auditorium,
                                        @Nonnull Set<Long> seats, int countSeats) {
-        long countVipSeats = auditoriumDAO.countVipSeats(auditorium.getVipSeats(), seats);
+        long countVipSeats = countVipSeats(auditorium.getVipSeats(), seats);
         long countStandardSeats = countSeats - countVipSeats;
 
         double eventPriceWithRating = ratingCoefficients.get(event.getRating()) * event.getBasePrice();
@@ -88,6 +89,17 @@ public class BookingServiceImpl implements BookingService {
         double eventDiscount = eventPrice * eventDiscountPercent / 100;
 
         return eventPrice - eventDiscount;
+    }
+
+    /**
+     * Counts how many vip seats are there in supplied <code>seats</code>
+     *
+     * @param vipSeats Vip seats to process
+     * @param seats Seats to process
+     * @return number of vip seats in request
+     */
+    private long countVipSeats(Set<Long> vipSeats, Collection<Long> seats) {
+        return seats.stream().filter(vipSeats::contains).count();
     }
 
     public void setVipSeatCoefficient(double vipSeatCoefficient) {

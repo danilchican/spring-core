@@ -35,15 +35,4 @@ public interface AuditoriumDAO {
      * @return auditorium on particular <code>dateTime</code>
      */
     Auditorium findAuditoriumOnDateTime(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime);
-
-    /**
-     * Counts how many vip seats are there in supplied <code>seats</code>
-     *
-     * @param vipSeats Vip seats to process
-     * @param seats Seats to process
-     * @return number of vip seats in request
-     */
-    default long countVipSeats(Set<Long> vipSeats, Collection<Long> seats) {
-        return seats.stream().filter(vipSeats::contains).count();
-    }
 }
