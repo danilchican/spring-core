@@ -34,18 +34,13 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime,
                                   @Nullable User user, @Nonnull Set<Long> seats) {
-        int countSeats = seats.size();
-
         Auditorium auditorium = auditoriumDAO.findAuditoriumOnDateTime(event.getAuditoriums(), dateTime);
 
         if (auditorium == null) {
             throw new IllegalArgumentException("There is no auditorium for particular date and time.");
         }
 
-        double eventPrice = calculateEventPrice(event, auditorium, seats, countSeats);
-        double eventDiscountPercent = discountService.getDiscount(user, event, dateTime, countSeats);
-
-        return calculateEventPriceByDiscountPercent(eventPrice, eventDiscountPercent);
+        return calculateEventPriceByDiscountPercent(user, event, auditorium, seats, dateTime);
     }
 
     @Override
@@ -81,11 +76,21 @@ public class BookingServiceImpl implements BookingService {
     /**
      * Calculate event price by discount percent.
      *
-     * @param eventPrice           Event price without discount
-     * @param eventDiscountPercent Event discount percent
+     * @param user       User that buys ticket could be needed to calculate discount.
+     * @param event      Event to get base ticket price, vip seats and other
+     *                   information
+     * @param auditorium Auditorium for particular date and time
+     * @param dateTime   Date and time of event air
+     *                   Can be <code>null</code>
+     * @param seats      Set of seat numbers that user wants to buy
      * @return Event price with discount
      */
-    private double calculateEventPriceByDiscountPercent(double eventPrice, double eventDiscountPercent) {
+    private double calculateEventPriceByDiscountPercent(User user, Event event, Auditorium auditorium,
+                                                        Set<Long> seats, LocalDateTime dateTime) {
+        int countSeats = seats.size();
+
+        double eventPrice = calculateEventPrice(event, auditorium, seats, countSeats);
+        double eventDiscountPercent = discountService.getDiscount(user, event, dateTime, countSeats);
         double eventDiscount = eventPrice * eventDiscountPercent / 100;
 
         return eventPrice - eventDiscount;
@@ -95,7 +100,7 @@ public class BookingServiceImpl implements BookingService {
      * Counts how many vip seats are there in supplied <code>seats</code>
      *
      * @param vipSeats Vip seats to process
-     * @param seats Seats to process
+     * @param seats    Seats to process
      * @return number of vip seats in request
      */
     private long countVipSeats(Set<Long> vipSeats, Collection<Long> seats) {

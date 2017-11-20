@@ -98,24 +98,4 @@ public interface EventDAO extends AbstractDAO<Event> {
     default boolean addAirDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime) {
         return airDates.add(dateTime);
     }
-
-    /**
-     * Adding date and time of event air and assigning auditorium to that
-     *
-     * @param airDates    air dates of event
-     * @param auditoriums auditoriums for event
-     * @param dateTime    Date and time to add
-     * @param auditorium  Auditorium to add if success in date time add
-     * @return <code>true</code> if successful, <code>false</code> if already
-     * there
-     */
-    default boolean addAirDateTime(NavigableSet<LocalDateTime> airDates, NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime, Auditorium auditorium) {
-        boolean result = airDates.add(dateTime);
-
-        if (result) {
-            auditoriums.put(dateTime, auditorium);
-        }
-
-        return result;
-    }
 }

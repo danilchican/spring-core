@@ -2,6 +2,7 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.epam.spring.hometask.dao.AuditoriumDAO;
 import ua.epam.spring.hometask.dao.EventDAO;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
@@ -18,6 +19,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventDAO eventDAO;
+
+    @Autowired
+    private AuditoriumDAO auditoriumDAO;
 
     @Nullable
     @Override
@@ -79,6 +83,20 @@ public class EventServiceImpl implements EventService {
     public boolean airsOnDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime) {
         //TODO Remove when integrated with DB.
         return airDates.stream().anyMatch(dt -> dt.equals(dateTime));
+    }
+
+    @Override
+    public boolean addAirDateTime(Event event, LocalDateTime dateTime, Auditorium auditorium) {
+        NavigableSet<LocalDateTime> airDates = event.getAirDates();
+
+        boolean result = eventDAO.addAirDateTime(airDates, dateTime);
+
+        if (result) {
+            // TODO duplicate assignAuditorium
+            assignAuditorium(event, dateTime, auditorium);
+        }
+
+        return result;
     }
 
     @Override

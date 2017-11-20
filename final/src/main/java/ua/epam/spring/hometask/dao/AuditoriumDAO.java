@@ -35,4 +35,5 @@ public interface AuditoriumDAO {
      * @return auditorium on particular <code>dateTime</code>
      */
     Auditorium findAuditoriumOnDateTime(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime);
+
 }

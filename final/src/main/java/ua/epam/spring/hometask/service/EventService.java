@@ -95,4 +95,15 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * @return <code>true</code> event airs on that date and time
      */
     boolean airsOnDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime);
+
+    /**
+     * Adding date and time of event air and assigning auditorium to that
+     *
+     * @param event      Event to add air date and time
+     * @param dateTime   Date and time to add
+     * @param auditorium Auditorium to add if success in date time add
+     * @return <code>true</code> if successful, <code>false</code> if already
+     * there
+     */
+    boolean addAirDateTime(Event event, LocalDateTime dateTime, Auditorium auditorium);
 }
