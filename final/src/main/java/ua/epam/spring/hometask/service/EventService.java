@@ -77,4 +77,22 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * removed
      */
     boolean removeAuditoriumAssignment(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime);
+
+    /**
+     * Checks if event airs on particular date
+     *
+     * @param airDates air dates of event
+     * @param date     Date to ckeck
+     * @return <code>true</code> event airs on that date
+     */
+    boolean airsOnDate(NavigableSet<LocalDateTime> airDates, LocalDate date);
+
+    /**
+     * Checks if event airs on particular date and time
+     *
+     * @param airDates air dates of event
+     * @param dateTime Date and time to check
+     * @return <code>true</code> event airs on that date and time
+     */
+    boolean airsOnDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime);
 }

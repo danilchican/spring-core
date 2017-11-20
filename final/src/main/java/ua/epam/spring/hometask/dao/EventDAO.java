@@ -64,30 +64,6 @@ public interface EventDAO extends AbstractDAO<Event> {
     }
 
     /**
-     * Checks if event airs on particular date
-     *
-     * @param airDates air dates of event
-     * @param date     Date to ckeck
-     * @return <code>true</code> event airs on that date
-     */
-    default boolean airsOnDate(NavigableSet<LocalDateTime> airDates, LocalDate date) {
-        //TODO Remove when integrated with DB.
-        return airDates.stream().anyMatch(dt -> dt.toLocalDate().equals(date));
-    }
-
-    /**
-     * Checks if event airs on particular date and time
-     *
-     * @param airDates air dates of event
-     * @param dateTime Date and time to check
-     * @return <code>true</code> event airs on that date and time
-     */
-    default boolean airsOnDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime) {
-        //TODO Remove when integrated with DB.
-        return airDates.stream().anyMatch(dt -> dt.equals(dateTime));
-    }
-
-    /**
      * Checking if datetime in range.
      *
      * @param current Current datetime to check

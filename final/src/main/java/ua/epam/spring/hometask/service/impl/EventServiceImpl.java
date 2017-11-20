@@ -70,6 +70,18 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public boolean airsOnDate(NavigableSet<LocalDateTime> airDates, LocalDate date) {
+        //TODO Remove when integrated with DB.
+        return airDates.stream().anyMatch(dt -> dt.toLocalDate().equals(date));
+    }
+
+    @Override
+    public boolean airsOnDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime) {
+        //TODO Remove when integrated with DB.
+        return airDates.stream().anyMatch(dt -> dt.equals(dateTime));
+    }
+
+    @Override
     public Optional<Event> save(@Nonnull Event object) {
         return eventDAO.save(object);
     }
