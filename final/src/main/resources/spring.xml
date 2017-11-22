@@ -11,35 +11,35 @@
             http://www.springframework.org/schema/data/jpa
             http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <bean id="userDAO" class="ua.epam.spring.hometask.repository.impl.UserRepositoryImpl">
-        <property name="users">
-            <map>
-                <entry key="0">
-                    <bean class="ua.epam.spring.hometask.domain.User">
-                        <property name="id" value="0"/>
-                        <property name="email" value="danilchican@mail.ru"/>
-                        <property name="firstName" value="Uladzislau"/>
-                        <property name="lastName" value="Danilchyk"/>
-                    </bean>
-                </entry>
-            </map>
+    <context:property-placeholder location="classpath:config.properties"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+
+    <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="ua.epam.spring.hometask.domain"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+            </props>
         </property>
     </bean>
 
-    <bean id="auditoriumDAO" class="ua.epam.spring.hometask.repository.impl.AuditoriumRepositoryImpl">
-        <property name="auditoriums">
-            <set>
-                <bean class="ua.epam.spring.hometask.domain.Auditorium">
-                    <property name="name" value="Aud 1"/>
-                    <property name="numberOfSeats" value="2"/>
-                </bean>
-                <bean class="ua.epam.spring.hometask.domain.Auditorium">
-                    <property name="name" value="Aud 2"/>
-                    <property name="numberOfSeats" value="51"/>
-                </bean>
-            </set>
-        </property>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="myEmf"/>
     </bean>
+
+    <bean id="persistenceExceptionTranslationPostProcessor"
+          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
     <context:component-scan base-package="ua.epam.spring.hometask"/>
     <jpa:repositories base-package="ua.epam.spring.hometask"/>
