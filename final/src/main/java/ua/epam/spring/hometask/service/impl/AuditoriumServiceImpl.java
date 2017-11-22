@@ -2,7 +2,7 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.dao.AuditoriumDAO;
+import ua.epam.spring.hometask.repository.AuditoriumRepository;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.service.AuditoriumService;
 
@@ -17,7 +17,7 @@ import java.util.stream.LongStream;
 public class AuditoriumServiceImpl implements AuditoriumService {
 
     @Autowired
-    private AuditoriumDAO auditoriumDAO;
+    private AuditoriumRepository auditoriumRepository;
 
     /**
      * Getting all auditoriums from the system
@@ -27,7 +27,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     @Nonnull
     @Override
     public Set<Auditorium> getAll() {
-        return auditoriumDAO.getAll();
+        return auditoriumRepository.getAll();
     }
 
     /**
@@ -39,7 +39,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     @Nullable
     @Override
     public Optional<Auditorium> getByName(@Nonnull String name) {
-        return auditoriumDAO.getByName(name);
+        return auditoriumRepository.getByName(name);
     }
 
     /**

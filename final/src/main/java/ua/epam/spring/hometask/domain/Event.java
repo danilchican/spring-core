@@ -1,5 +1,9 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
@@ -10,7 +14,12 @@ import java.util.TreeSet;
 /**
  * @author Yuriy_Tkach
  */
-public class Event extends DomainObject {
+@Entity
+public class Event {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 

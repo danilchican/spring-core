@@ -1,5 +1,9 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
@@ -7,7 +11,12 @@ import java.util.Set;
 /**
  * @author Yuriy_Tkach
  */
+@Entity
 public class Auditorium {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 

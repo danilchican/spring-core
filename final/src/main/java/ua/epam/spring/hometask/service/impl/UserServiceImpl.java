@@ -2,7 +2,7 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.dao.UserDAO;
+import ua.epam.spring.hometask.repository.UserRepository;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.UserService;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDAO userDAO;
+    private UserRepository userDAO;
 
     /**
      * Finding user by email

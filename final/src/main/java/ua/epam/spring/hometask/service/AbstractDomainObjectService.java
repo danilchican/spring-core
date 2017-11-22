@@ -5,13 +5,11 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-import ua.epam.spring.hometask.domain.DomainObject;
-
 /**
  * @param <T> DomainObject subclass
  * @author Yuriy_Tkach
  */
-public interface AbstractDomainObjectService<T extends DomainObject> {
+public interface AbstractDomainObjectService<T> {
 
     /**
      * Saving new object to dao or updating existing one

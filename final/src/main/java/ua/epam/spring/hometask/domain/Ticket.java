@@ -1,12 +1,21 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * @author Yuriy_Tkach
  */
-public class Ticket extends DomainObject implements Comparable<Ticket> {
+@Entity
+public class Ticket implements Comparable<Ticket> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private User user;
 
