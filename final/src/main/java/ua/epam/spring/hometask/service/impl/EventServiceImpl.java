@@ -2,8 +2,8 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.dao.AuditoriumDAO;
-import ua.epam.spring.hometask.dao.EventDAO;
+import ua.epam.spring.hometask.repository.AuditoriumRepository;
+import ua.epam.spring.hometask.repository.EventRepository;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.service.EventService;
@@ -18,10 +18,10 @@ import java.util.*;
 public class EventServiceImpl implements EventService {
 
     @Autowired
-    private EventDAO eventDAO;
+    private EventRepository eventDAO;
 
     @Autowired
-    private AuditoriumDAO auditoriumDAO;
+    private AuditoriumRepository auditoriumRepository;
 
     @Nullable
     @Override

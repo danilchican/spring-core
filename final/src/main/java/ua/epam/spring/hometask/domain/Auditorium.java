@@ -1,19 +1,21 @@
 package ua.epam.spring.hometask.domain;
 
-import java.util.Collections;
-import java.util.Objects;
+import javax.persistence.*;
 import java.util.Set;
+import java.util.TreeSet;
 
-/**
- * @author Yuriy_Tkach
- */
-public class Auditorium {
+@Entity
+@Table(name = "auditoriums")
+public class Auditorium extends AbstractEntity {
 
+    @Column(name = "name")
     private String name;
 
-    private long numberOfSeats;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "auditorium")
+    private Set<Seat> seats = new TreeSet<>();
 
-    private Set<Long> vipSeats = Collections.emptySet();
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "auditoriums")
+    private Set<Event> events;
 
     public Auditorium() {
     }
@@ -26,46 +28,19 @@ public class Auditorium {
         this.name = name;
     }
 
-    public long getNumberOfSeats() {
-        return numberOfSeats;
+    public Set<Seat> getSeats() {
+        return seats;
     }
 
-    public void setNumberOfSeats(long numberOfSeats) {
-        this.numberOfSeats = numberOfSeats;
+    public void setSeats(Set<Seat> seats) {
+        this.seats = seats;
     }
 
-    public Set<Long> getVipSeats() {
-        return vipSeats;
+    public Set<Event> getEvents() {
+        return events;
     }
 
-    public void setVipSeats(Set<Long> vipSeats) {
-        this.vipSeats = vipSeats;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Auditorium other = (Auditorium) obj;
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        return true;
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 }

@@ -5,11 +5,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.epam.spring.hometask.dao.UserDAO;
 import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.repository.UserRepository;
 import ua.epam.spring.hometask.service.impl.UserServiceImpl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -25,20 +27,18 @@ import static org.mockito.Mockito.when;
 public class UserServiceImplTest {
 
     @Mock
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     @Mock
     private User user;
 
-    @Mock
-    private Collection<User> users;
 
     @InjectMocks
     private final UserService userService = new UserServiceImpl();
 
     @Test
     public void getUserByEmail_ReturnsOptionalUser_WhenUserWithSuchEmailExists() throws Exception {
-        when(userDAO.getUserByEmail(anyString())).thenReturn(Optional.of(user));
+        when(userRepository.findFirstByEmail(anyString())).thenReturn(user);
 
         Optional<User> actual = userService.getUserByEmail("danilchican@mail.ru");
         assertTrue(actual.isPresent());
@@ -46,7 +46,7 @@ public class UserServiceImplTest {
 
     @Test
     public void getUserByEmail_ReturnsEmpty_WhenUserWithSuchEmailDoesntExist() throws Exception {
-        when(userDAO.getUserByEmail(anyString())).thenReturn(Optional.empty());
+        when(userRepository.findFirstByEmail(anyString())).thenReturn(null);
         Optional<User> actual = userService.getUserByEmail("danilchican@mail.ru");
 
         assertFalse(actual.isPresent());
@@ -59,10 +59,10 @@ public class UserServiceImplTest {
 
     @Test
     public void save_ReturnsSavedOrUpdatedUser_WhenUserPassed() throws Exception {
-        when(userDAO.save(user)).thenReturn(Optional.of(user));
+        when(userRepository.save(user)).thenReturn(user);
 
-        Optional<User> actual = userService.save(user);
-        assertTrue(actual.isPresent());
+        User actual = userService.save(user);
+        assertNotNull(actual);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -73,33 +73,34 @@ public class UserServiceImplTest {
     @Test
     public void remove_ReturnsNothing_WhenUserPassed() throws Exception {
         userService.remove(user);
-        verify(userDAO, times(1)).remove(user);
+        verify(userRepository, times(1)).delete(user);
     }
 
     @Test
     public void getById_ReturnsOptionalUser_WhenUserWithSuchIdExists() throws Exception {
-        when(userDAO.getById(anyLong())).thenReturn(Optional.of(user));
+        when(userRepository.findOne(anyLong())).thenReturn(user);
 
-        Optional<User> actual = userService.getById(1L);
+        Optional<User> actual = userService.findById(1L);
         assertTrue(actual.isPresent());
     }
 
     @Test
     public void getById_ReturnsEmpty_WhenUserWithSuchIdDoesntExist() throws Exception {
-        when(userDAO.getById(anyLong())).thenReturn(Optional.empty());
-        Optional<User> actual = userService.getById(1L);
+        when(userRepository.findOne(anyLong())).thenReturn(null);
+        Optional<User> actual = userService.findById(1L);
 
         assertFalse(actual.isPresent());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getById_InvalidId_ExceptionThrown() throws Exception {
-        userService.getById(null);
+        userService.findById(null);
     }
 
     @Test
     public void getAll_ReturnsCollectionOfUsers_WhenCollectionIsNotNull() throws Exception {
-        when(userDAO.getAll()).thenReturn(users);
+        List<User> users = new ArrayList<>();
+        when(userRepository.findAll()).thenReturn(users);
 
         Collection<User> collection = userService.getAll();
         assertThat(collection, is(notNullValue()));

@@ -2,8 +2,8 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.dao.UserDAO;
 import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.repository.UserRepository;
 import ua.epam.spring.hometask.service.UserService;
 
 import javax.annotation.Nonnull;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     /**
      * Finding user by email
@@ -26,49 +26,49 @@ public class UserServiceImpl implements UserService {
     @Nullable
     @Override
     public Optional<User> getUserByEmail(@Nonnull String email) {
-        return userDAO.getUserByEmail(email);
+        return Optional.ofNullable(userRepository.findFirstByEmail(email));
     }
 
     /**
-     * Saving new object to dao or updating existing one
+     * Saving new object to repository or updating existing one
      *
      * @param object Object to save
      * @return saved object with assigned id
      */
     @Override
-    public Optional<User> save(@Nonnull User object) {
-        return userDAO.save(object);
+    public User save(@Nonnull User object) {
+        return userRepository.save(object);
     }
 
     /**
-     * Removing object from dao
+     * Removing object from repository
      *
      * @param object Object to remove
      */
     @Override
     public void remove(@Nonnull User object) {
-        userDAO.remove(object);
+        userRepository.delete(object);
     }
 
     /**
-     * Getting object by id from dao
+     * Getting object by id from repository
      *
      * @param id id of the object
      * @return Found object or <code>null</code>
      */
     @Override
-    public Optional<User> getById(@Nonnull Long id) {
-        return userDAO.getById(id);
+    public Optional<User> findById(@Nonnull Long id) {
+        return Optional.ofNullable(userRepository.findOne(id));
     }
 
     /**
-     * Getting all objects from dao
+     * Getting all objects from repository
      *
      * @return collection of objects
      */
     @Nonnull
     @Override
     public Collection<User> getAll() {
-        return userDAO.getAll();
+        return userRepository.findAll();
     }
 }

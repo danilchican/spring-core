@@ -1,19 +1,17 @@
 package ua.epam.spring.hometask.service;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.epam.spring.hometask.dao.EventDAO;
+import ua.epam.spring.hometask.repository.EventRepository;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.service.impl.EventServiceImpl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -30,20 +28,24 @@ import static org.mockito.Mockito.when;
 public class EventServiceImplTest {
 
     @Mock
-    private EventDAO eventDAO;
+    private EventRepository eventRepository;
 
     @Mock
     private Event event;
 
-    @Mock
-    private Set<Event> events;
+    private static List<Event> events;
+
+    @BeforeClass
+    public static void setUp() {
+        events = new ArrayList<>();
+    }
 
     @InjectMocks
     private final EventService eventService = new EventServiceImpl();
 
     @Test
     public void getByName_ReturnsOptionalEvent_WhenEventWithSuchNameExists() throws Exception {
-        when(eventDAO.getByName(anyString())).thenReturn(Optional.of(event));
+        when(eventRepository.findFirstByName(anyString())).thenReturn(event);
 
         Optional<Event> actual = eventService.getByName("event name");
         assertTrue(actual.isPresent());
@@ -51,7 +53,7 @@ public class EventServiceImplTest {
 
     @Test
     public void getByName_ReturnsEmpty_WhenUserWithSuchEmailDoesntExist() throws Exception {
-        when(eventDAO.getByName(anyString())).thenReturn(Optional.empty());
+        when(eventRepository.findFirstByName(anyString())).thenReturn(null);
         Optional<Event> actual = eventService.getByName("event name");
 
         assertFalse(actual.isPresent());
@@ -64,9 +66,9 @@ public class EventServiceImplTest {
 
     @Test
     public void getForDateRange_ReturnsCollectionOfEventsIncludedInRage_WhenCollectionIsNotNull() throws Exception {
-        LocalDate from = LocalDate.of(2016, 4, 10);
-        LocalDate to = LocalDate.of(2017, 2, 20);
-        when(eventDAO.getForDateRange(from, to)).thenReturn(events);
+        LocalDateTime from = LocalDateTime.of(2016, 4, 10, 0, 0, 0);
+        LocalDateTime to = LocalDateTime.of(2017, 2, 20, 0, 0, 0);
+        when(eventRepository.findEventsByAirDates_dateTimeBetween(from, to)).thenReturn(events);
 
         Collection<Event> collection = eventService.getForDateRange(from, to);
         assertThat(collection, is(notNullValue()));
@@ -79,8 +81,10 @@ public class EventServiceImplTest {
 
     @Test
     public void getNextEvents_ReturnsCollectionOfEventsFromNowToDate_WhenCollectionIsNotNull() throws Exception {
-        LocalDateTime to = LocalDateTime.now();
-        when(eventDAO.getNextEvents(to)).thenReturn(events);
+        LocalDateTime from = LocalDateTime.now();
+        LocalDateTime to = LocalDateTime.of(2017, 2, 20, 0, 0, 0);
+
+        when(eventRepository.findEventsByAirDates_dateTimeBetween(from, to)).thenReturn(events);
 
         Collection<Event> collection = eventService.getNextEvents(to);
         assertThat(collection, is(notNullValue()));
@@ -93,10 +97,10 @@ public class EventServiceImplTest {
 
     @Test
     public void save_ReturnsSavedOrUpdatedEvent_WhenEventPassed() throws Exception {
-        when(eventDAO.save(event)).thenReturn(Optional.of(event));
+        when(eventRepository.save(event)).thenReturn(event);
 
-        Optional<Event> actual = eventService.save(event);
-        assertTrue(actual.isPresent());
+        Event actual = eventService.save(event);
+        assertThat(actual, is(notNullValue()));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -107,33 +111,33 @@ public class EventServiceImplTest {
     @Test
     public void remove_ReturnsNothing_WhenEventPassed() throws Exception {
         eventService.remove(event);
-        verify(eventDAO, times(1)).remove(event);
+        verify(eventRepository, times(1)).delete(event);
     }
 
     @Test
     public void getById_ReturnsOptionalEvent_WhenEventWithSuchIdExists() throws Exception {
-        when(eventDAO.getById(anyLong())).thenReturn(Optional.of(event));
+        when(eventRepository.findOne(anyLong())).thenReturn(event);
 
-        Optional<Event> actual = eventService.getById(1L);
+        Optional<Event> actual = eventService.findById(1L);
         assertTrue(actual.isPresent());
     }
 
     @Test
     public void getById_ReturnsEmpty_WhenEventWithSuchIdDoesntExist() throws Exception {
-        when(eventDAO.getById(anyLong())).thenReturn(Optional.empty());
-        Optional<Event> actual = eventService.getById(1L);
+        when(eventRepository.findOne(anyLong())).thenReturn(null);
+        Optional<Event> actual = eventService.findById(1L);
 
         assertFalse(actual.isPresent());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getById_InvalidId_ExceptionThrown() throws Exception {
-        eventService.getById(null);
+        eventService.findById(null);
     }
 
     @Test
     public void getAll_ReturnsCollectionOfEvents_WhenCollectionIsNotNull() throws Exception {
-        when(eventDAO.getAll()).thenReturn(events);
+        when(eventRepository.findAll()).thenReturn(events);
 
         Collection<Event> collection = eventService.getAll();
         assertThat(collection, is(notNullValue()));

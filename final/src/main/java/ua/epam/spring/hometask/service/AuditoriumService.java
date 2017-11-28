@@ -1,14 +1,12 @@
 package ua.epam.spring.hometask.service;
 
+import ua.epam.spring.hometask.domain.Auditorium;
+
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import ua.epam.spring.hometask.domain.Auditorium;
 
 /**
  * @author Yuriy_Tkach
@@ -21,7 +19,7 @@ public interface AuditoriumService {
      * @return set of all auditoriums
      */
     @Nonnull
-    Set<Auditorium> getAll();
+    List<Auditorium> getAll();
 
     /**
      * Finding auditorium by name
@@ -31,14 +29,4 @@ public interface AuditoriumService {
      */
     @Nullable
     Optional<Auditorium> getByName(@Nonnull String name);
-
-
-    /**
-     * Getting all seats from range.
-     *
-     * @param numberOfSeats
-     * @return set of seats
-     */
-    @Nonnull
-    Set<Long> getAllSeats(long numberOfSeats);
 }

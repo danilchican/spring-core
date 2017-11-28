@@ -1,26 +1,31 @@
 package ua.epam.spring.hometask.domain;
 
-import java.time.LocalDateTime;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
+import javax.persistence.*;
 import java.util.Objects;
-import java.util.TreeMap;
+import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * @author Yuriy_Tkach
- */
-public class Event extends DomainObject {
+@Entity
+@Table(name = "events")
+public class Event extends AbstractEntity {
 
+    @Column(name = "name")
     private String name;
 
-    private NavigableSet<LocalDateTime> airDates = new TreeSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+    private Set<AirDate> airDates = new TreeSet<>();
 
+    @Column(name = "base_price")
     private double basePrice;
 
+    @Enumerated(EnumType.STRING)
     private EventRating rating;
 
-    private NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "event_auditorium",
+            joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id",  foreignKey = @ForeignKey(name = "ea_event_id_fk")),
+            inverseJoinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id",  foreignKey = @ForeignKey(name = "ea_auditorium_id_fk")))
+    private Set<Auditorium> auditoriums;
 
     public String getName() {
         return name;
@@ -30,11 +35,11 @@ public class Event extends DomainObject {
         this.name = name;
     }
 
-    public NavigableSet<LocalDateTime> getAirDates() {
+    public Set<AirDate> getAirDates() {
         return airDates;
     }
 
-    public void setAirDates(NavigableSet<LocalDateTime> airDates) {
+    public void setAirDates(Set<AirDate> airDates) {
         this.airDates = airDates;
     }
 
@@ -54,11 +59,11 @@ public class Event extends DomainObject {
         this.rating = rating;
     }
 
-    public NavigableMap<LocalDateTime, Auditorium> getAuditoriums() {
+    public Set<Auditorium> getAuditoriums() {
         return auditoriums;
     }
 
-    public void setAuditoriums(NavigableMap<LocalDateTime, Auditorium> auditoriums) {
+    public void setAuditoriums(Set<Auditorium> auditoriums) {
         this.auditoriums = auditoriums;
     }
 
@@ -87,5 +92,16 @@ public class Event extends DomainObject {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", airDates=" + airDates +
+                ", basePrice=" + basePrice +
+                ", rating=" + rating +
+                '}';
     }
 }

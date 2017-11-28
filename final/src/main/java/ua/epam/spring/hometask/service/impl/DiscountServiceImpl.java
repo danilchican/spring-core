@@ -18,7 +18,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public double getDiscount(@Nullable User user, @Nonnull Event event,
-                            @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
+                              @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
         double maxDiscount = 0;
 
         for (DiscountStrategy discountStrategy : discountStrategies) {

@@ -14,7 +14,7 @@ public class BirthdayStrategy implements DiscountStrategy {
 
     @Override
     public double calculateDiscount(@Nullable User user, @Nonnull Event event,
-                                  @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
+                                    @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
         int dayOfBirthday = user.getBirthday().getDayOfYear();
         int dayOfEvent = airDateTime.getDayOfYear();
 

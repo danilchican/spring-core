@@ -1,24 +1,31 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.NavigableSet;
 import java.util.Objects;
-import java.util.TreeSet;
+import java.util.Set;
 
 /**
  * @author Yuriy_Tkach
  */
-public class User extends DomainObject {
+@Entity
+@Table(name = "users")
+public class User extends AbstractEntity {
 
+    @Column(name = "firstname")
     private String firstName;
 
+    @Column(name = "lastname")
     private String lastName;
 
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "birthday")
     private LocalDate birthday;
 
-    private NavigableSet<Ticket> tickets = new TreeSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Ticket> tickets;
 
     public String getFirstName() {
         return firstName;
@@ -52,11 +59,11 @@ public class User extends DomainObject {
         this.birthday = birthday;
     }
 
-    public NavigableSet<Ticket> getTickets() {
+    public Set<Ticket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(NavigableSet<Ticket> tickets) {
+    public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
     }
 
