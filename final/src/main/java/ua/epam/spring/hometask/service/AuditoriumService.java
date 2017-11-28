@@ -35,9 +35,10 @@ public interface AuditoriumService {
     /**
      * Getting all seats from range.
      *
+     * @param page
      * @param numberOfSeats
      * @return set of seats
      */
     @Nonnull
-    Page<Auditorium> getAllSeats(int numberOfSeats);
+    Page<Auditorium> getAllSeats(int page, int numberOfSeats);
 }

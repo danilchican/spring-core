@@ -50,8 +50,8 @@ public class AuditoriumServiceImpl implements AuditoriumService {
      */
     @Nonnull
     @Override
-    public Page<Auditorium> getAllSeats(int numberOfSeats) {
-        PageRequest request = PageRequest.of(1, numberOfSeats + 1);
+    public Page<Auditorium> getAllSeats(int page, int numberOfSeats) {
+        PageRequest request = PageRequest.of(page, numberOfSeats + 1);
         return auditoriumRepository.findAll(request);
     }
 }
