@@ -17,7 +17,7 @@ public interface AbstractDomainObjectService<T> {
      * @param object Object to save
      * @return saved object with assigned id
      */
-    Optional<T> save(@Nonnull T object);
+    T save(@Nonnull T object);
 
     /**
      * Removing object from dao
@@ -32,7 +32,7 @@ public interface AbstractDomainObjectService<T> {
      * @param id id of the object
      * @return Found object or <code>null</code>
      */
-    Optional<T> getById(@Nonnull Long id);
+    Optional<T> findById(@Nonnull Long id);
 
     /**
      * Getting all objects from dao

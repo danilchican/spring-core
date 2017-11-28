@@ -2,8 +2,8 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.repository.UserRepository;
 import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.repository.UserRepository;
 import ua.epam.spring.hometask.service.UserService;
 
 import javax.annotation.Nonnull;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userDAO;
+    private UserRepository userRepository;
 
     /**
      * Finding user by email
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Nullable
     @Override
     public Optional<User> getUserByEmail(@Nonnull String email) {
-        return userDAO.getUserByEmail(email);
+        return Optional.ofNullable(userRepository.findFirstByEmail(email));
     }
 
     /**
@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
      * @return saved object with assigned id
      */
     @Override
-    public Optional<User> save(@Nonnull User object) {
-        return userDAO.save(object);
+    public User save(@Nonnull User object) {
+        return userRepository.save(object);
     }
 
     /**
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void remove(@Nonnull User object) {
-        userDAO.remove(object);
+        userRepository.delete(object);
     }
 
     /**
@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserService {
      * @return Found object or <code>null</code>
      */
     @Override
-    public Optional<User> getById(@Nonnull Long id) {
-        return userDAO.getById(id);
+    public Optional<User> findById(@Nonnull Long id) {
+        return userRepository.findById(id);
     }
 
     /**
@@ -69,6 +69,6 @@ public class UserServiceImpl implements UserService {
     @Nonnull
     @Override
     public Collection<User> getAll() {
-        return userDAO.getAll();
+        return userRepository.findAll();
     }
 }

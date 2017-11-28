@@ -1,17 +1,14 @@
 package ua.epam.spring.hometask.service;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Yuriy_Tkach
@@ -35,7 +32,7 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * @return Set of events
      */
     @Nonnull
-    Set<Event> getForDateRange(@Nonnull LocalDate from, @Nonnull LocalDate to);
+    List<Event> getForDateRange(@Nonnull LocalDateTime from, @Nonnull LocalDateTime to);
 
     /**
      * Return events from 'now' till the the specified date time
@@ -44,7 +41,7 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * @return Set of events
      */
     @Nonnull
-    Set<Event> getNextEvents(@Nonnull LocalDateTime to);
+    List<Event> getNextEvents(@Nonnull LocalDateTime to);
 
     /**
      * Checks if event is aired on particular <code>dateTime</code> and assigns
@@ -77,24 +74,6 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * removed
      */
     boolean removeAuditoriumAssignment(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime);
-
-    /**
-     * Checks if event airs on particular date
-     *
-     * @param airDates air dates of event
-     * @param date     Date to ckeck
-     * @return <code>true</code> event airs on that date
-     */
-    boolean airsOnDate(NavigableSet<LocalDateTime> airDates, LocalDate date);
-
-    /**
-     * Checks if event airs on particular date and time
-     *
-     * @param airDates air dates of event
-     * @param dateTime Date and time to check
-     * @return <code>true</code> event airs on that date and time
-     */
-    boolean airsOnDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime);
 
     /**
      * Adding date and time of event air and assigning auditorium to that

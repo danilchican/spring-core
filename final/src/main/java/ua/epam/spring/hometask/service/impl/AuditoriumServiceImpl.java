@@ -1,17 +1,17 @@
 package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.repository.AuditoriumRepository;
 import ua.epam.spring.hometask.domain.Auditorium;
+import ua.epam.spring.hometask.repository.AuditoriumRepository;
 import ua.epam.spring.hometask.service.AuditoriumService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 @Service
 public class AuditoriumServiceImpl implements AuditoriumService {
@@ -26,8 +26,8 @@ public class AuditoriumServiceImpl implements AuditoriumService {
      */
     @Nonnull
     @Override
-    public Set<Auditorium> getAll() {
-        return auditoriumRepository.getAll();
+    public List<Auditorium> getAll() {
+        return auditoriumRepository.findAll();
     }
 
     /**
@@ -39,7 +39,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     @Nullable
     @Override
     public Optional<Auditorium> getByName(@Nonnull String name) {
-        return auditoriumRepository.getByName(name);
+        return Optional.ofNullable(auditoriumRepository.findFirstByName(name));
     }
 
     /**
@@ -50,9 +50,8 @@ public class AuditoriumServiceImpl implements AuditoriumService {
      */
     @Nonnull
     @Override
-    public Set<Long> getAllSeats(long numberOfSeats) {
-        return LongStream.range(1, numberOfSeats + 1)
-                .boxed()
-                .collect(Collectors.toSet());
+    public Page<Auditorium> getAllSeats(int numberOfSeats) {
+        PageRequest request = PageRequest.of(1, numberOfSeats + 1);
+        return auditoriumRepository.findAll(request);
     }
 }
