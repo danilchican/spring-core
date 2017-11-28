@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.service;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -10,9 +11,7 @@ import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.service.impl.EventServiceImpl;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -34,8 +33,12 @@ public class EventServiceImplTest {
     @Mock
     private Event event;
 
-    @Mock
-    private List<Event> events;
+    private static List<Event> events;
+
+    @BeforeClass
+    public static void setUp() {
+        events = new ArrayList<>();
+    }
 
     @InjectMocks
     private final EventService eventService = new EventServiceImpl();

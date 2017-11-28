@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Saving new object to dao or updating existing one
+     * Saving new object to repository or updating existing one
      *
      * @param object Object to save
      * @return saved object with assigned id
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Removing object from dao
+     * Removing object from repository
      *
      * @param object Object to remove
      */
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Getting object by id from dao
+     * Getting object by id from repository
      *
      * @param id id of the object
      * @return Found object or <code>null</code>
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Getting all objects from dao
+     * Getting all objects from repository
      *
      * @return collection of objects
      */

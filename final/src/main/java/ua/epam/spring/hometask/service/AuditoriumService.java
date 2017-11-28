@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.service;
 
-import org.springframework.data.domain.Page;
 import ua.epam.spring.hometask.domain.Auditorium;
 
 import java.util.List;
@@ -30,15 +29,4 @@ public interface AuditoriumService {
      */
     @Nullable
     Optional<Auditorium> getByName(@Nonnull String name);
-
-
-    /**
-     * Getting all seats from range.
-     *
-     * @param page
-     * @param numberOfSeats
-     * @return set of seats
-     */
-    @Nonnull
-    Page<Auditorium> getAllSeats(int page, int numberOfSeats);
 }

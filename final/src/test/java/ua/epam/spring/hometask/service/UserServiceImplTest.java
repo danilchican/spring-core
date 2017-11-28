@@ -9,6 +9,7 @@ import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.repository.UserRepository;
 import ua.epam.spring.hometask.service.impl.UserServiceImpl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +32,6 @@ public class UserServiceImplTest {
     @Mock
     private User user;
 
-    @Mock
-    private List<User> users;
 
     @InjectMocks
     private final UserService userService = new UserServiceImpl();
@@ -100,6 +99,7 @@ public class UserServiceImplTest {
 
     @Test
     public void getAll_ReturnsCollectionOfUsers_WhenCollectionIsNotNull() throws Exception {
+        List<User> users = new ArrayList<>();
         when(userRepository.findAll()).thenReturn(users);
 
         Collection<User> collection = userService.getAll();

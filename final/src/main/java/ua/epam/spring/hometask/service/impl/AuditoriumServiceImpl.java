@@ -1,8 +1,6 @@
 package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.repository.AuditoriumRepository;
@@ -40,18 +38,5 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     @Override
     public Optional<Auditorium> getByName(@Nonnull String name) {
         return Optional.ofNullable(auditoriumRepository.findFirstByName(name));
-    }
-
-    /**
-     * Getting all seats from range.
-     *
-     * @param numberOfSeats
-     * @return set of seats
-     */
-    @Nonnull
-    @Override
-    public Page<Auditorium> getAllSeats(int page, int numberOfSeats) {
-        PageRequest request = PageRequest.of(page, numberOfSeats + 1);
-        return auditoriumRepository.findAll(request);
     }
 }

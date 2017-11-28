@@ -9,6 +9,7 @@ import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.repository.AuditoriumRepository;
 import ua.epam.spring.hometask.service.impl.AuditoriumServiceImpl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -29,9 +30,6 @@ public class AuditoriumServiceImplTest {
 
     @Mock
     private Auditorium auditorium;
-
-    @Mock
-    private List<Auditorium> auditoriums;
 
     @InjectMocks
     private final AuditoriumService auditoriumService = new AuditoriumServiceImpl();
@@ -59,6 +57,7 @@ public class AuditoriumServiceImplTest {
 
     @Test
     public void getAll_ReturnsSetOfAuditoriums_WhenSetIsNotNull() throws Exception {
+        List<Auditorium> auditoriums = new ArrayList<>();
         when(auditoriumRepository.findAll()).thenReturn(auditoriums);
 
         Collection<Auditorium> collection = auditoriumService.getAll();
