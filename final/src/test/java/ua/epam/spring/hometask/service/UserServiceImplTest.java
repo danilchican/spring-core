@@ -78,7 +78,7 @@ public class UserServiceImplTest {
 
     @Test
     public void getById_ReturnsOptionalUser_WhenUserWithSuchIdExists() throws Exception {
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+        when(userRepository.findOne(anyLong())).thenReturn(user);
 
         Optional<User> actual = userService.findById(1L);
         assertTrue(actual.isPresent());
@@ -86,7 +86,7 @@ public class UserServiceImplTest {
 
     @Test
     public void getById_ReturnsEmpty_WhenUserWithSuchIdDoesntExist() throws Exception {
-        when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(userRepository.findOne(anyLong())).thenReturn(null);
         Optional<User> actual = userService.findById(1L);
 
         assertFalse(actual.isPresent());

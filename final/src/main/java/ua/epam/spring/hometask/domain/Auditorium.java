@@ -14,6 +14,9 @@ public class Auditorium extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auditorium")
     private Set<Seat> seats = new TreeSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "auditoriums")
+    private Set<Event> events;
+
     public Auditorium() {
     }
 
@@ -31,5 +34,13 @@ public class Auditorium extends AbstractEntity {
 
     public void setSeats(Set<Seat> seats) {
         this.seats = seats;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 }

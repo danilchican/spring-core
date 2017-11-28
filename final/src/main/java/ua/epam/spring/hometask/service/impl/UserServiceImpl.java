@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Optional<User> findById(@Nonnull Long id) {
-        return userRepository.findById(id);
+        return Optional.ofNullable(userRepository.findOne(id));
     }
 
     /**

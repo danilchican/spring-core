@@ -116,7 +116,7 @@ public class EventServiceImplTest {
 
     @Test
     public void getById_ReturnsOptionalEvent_WhenEventWithSuchIdExists() throws Exception {
-        when(eventRepository.findById(anyLong())).thenReturn(Optional.of(event));
+        when(eventRepository.findOne(anyLong())).thenReturn(event);
 
         Optional<Event> actual = eventService.findById(1L);
         assertTrue(actual.isPresent());
@@ -124,7 +124,7 @@ public class EventServiceImplTest {
 
     @Test
     public void getById_ReturnsEmpty_WhenEventWithSuchIdDoesntExist() throws Exception {
-        when(eventRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(eventRepository.findOne(anyLong())).thenReturn(null);
         Optional<Event> actual = eventService.findById(1L);
 
         assertFalse(actual.isPresent());

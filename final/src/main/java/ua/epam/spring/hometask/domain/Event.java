@@ -21,8 +21,11 @@ public class Event extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private EventRating rating;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<EventAuditorium> auditoriums;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "event_auditorium",
+            joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id",  foreignKey = @ForeignKey(name = "ea_event_id_fk")),
+            inverseJoinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id",  foreignKey = @ForeignKey(name = "ea_auditorium_id_fk")))
+    private Set<Auditorium> auditoriums;
 
     public String getName() {
         return name;
@@ -56,11 +59,11 @@ public class Event extends AbstractEntity {
         this.rating = rating;
     }
 
-    public Set<EventAuditorium> getAuditoriums() {
+    public Set<Auditorium> getAuditoriums() {
         return auditoriums;
     }
 
-    public void setAuditoriums(Set<EventAuditorium> auditoriums) {
+    public void setAuditoriums(Set<Auditorium> auditoriums) {
         this.auditoriums = auditoriums;
     }
 
