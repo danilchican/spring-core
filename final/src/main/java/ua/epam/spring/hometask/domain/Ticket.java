@@ -1,103 +1,64 @@
 package ua.epam.spring.hometask.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-/**
- * @author Yuriy_Tkach
- */
 @Entity
-public class Ticket implements Comparable<Ticket> {
+@Table(name = "tickets")
+public class Ticket extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "tickets_user_id_fk"))
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id", nullable = false, foreignKey = @ForeignKey(name = "tickets_event_id_fk"))
     private Event event;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seat_id", nullable = false, foreignKey = @ForeignKey(name = "tickets_seat_id_fk"))
+    private Seat seat;
+
+    @Column(name = "datetime")
     private LocalDateTime dateTime;
 
-    private long seat;
+    public Long getId() {
+        return id;
+    }
 
-    public Ticket(User user, Event event, LocalDateTime dateTime, long seat) {
-        this.user = user;
-        this.event = event;
-        this.dateTime = dateTime;
-        this.seat = seat;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUser() {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Event getEvent() {
         return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Seat getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Seat seat) {
+        this.seat = seat;
     }
 
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    public long getSeat() {
-        return seat;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(dateTime, event, seat);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Ticket other = (Ticket) obj;
-        if (dateTime == null) {
-            if (other.dateTime != null) {
-                return false;
-            }
-        } else if (!dateTime.equals(other.dateTime)) {
-            return false;
-        }
-        if (event == null) {
-            if (other.event != null) {
-                return false;
-            }
-        } else if (!event.equals(other.event)) {
-            return false;
-        }
-        if (seat != other.seat) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int compareTo(Ticket other) {
-        if (other == null) {
-            return 1;
-        }
-        int result = dateTime.compareTo(other.getDateTime());
-
-        if (result == 0) {
-            result = event.getName().compareTo(other.getEvent().getName());
-        }
-        if (result == 0) {
-            result = Long.compare(seat, other.getSeat());
-        }
-        return result;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }

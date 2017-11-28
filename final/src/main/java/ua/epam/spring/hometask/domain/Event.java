@@ -1,35 +1,28 @@
 package ua.epam.spring.hometask.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
+import javax.persistence.*;
 import java.util.Objects;
-import java.util.TreeMap;
+import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * @author Yuriy_Tkach
- */
 @Entity
-public class Event {
+@Table(name = "events")
+public class Event extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @Column(name = "name")
     private String name;
 
-    private NavigableSet<LocalDateTime> airDates = new TreeSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+    private Set<AirDate> airDates = new TreeSet<>();
 
+    @Column(name = "base_price")
     private double basePrice;
 
+    @Enumerated(EnumType.STRING)
     private EventRating rating;
 
-    private NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EventAuditorium> auditoriums;
 
     public String getName() {
         return name;
@@ -39,11 +32,11 @@ public class Event {
         this.name = name;
     }
 
-    public NavigableSet<LocalDateTime> getAirDates() {
+    public Set<AirDate> getAirDates() {
         return airDates;
     }
 
-    public void setAirDates(NavigableSet<LocalDateTime> airDates) {
+    public void setAirDates(Set<AirDate> airDates) {
         this.airDates = airDates;
     }
 
@@ -63,11 +56,11 @@ public class Event {
         this.rating = rating;
     }
 
-    public NavigableMap<LocalDateTime, Auditorium> getAuditoriums() {
+    public Set<EventAuditorium> getAuditoriums() {
         return auditoriums;
     }
 
-    public void setAuditoriums(NavigableMap<LocalDateTime, Auditorium> auditoriums) {
+    public void setAuditoriums(Set<EventAuditorium> auditoriums) {
         this.auditoriums = auditoriums;
     }
 
@@ -96,5 +89,16 @@ public class Event {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", airDates=" + airDates +
+                ", basePrice=" + basePrice +
+                ", rating=" + rating +
+                '}';
     }
 }
