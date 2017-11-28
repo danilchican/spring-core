@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `order_db`.`events` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(80) NOT NULL,
   `base_price` DECIMAL(16,2) UNSIGNED NOT NULL,
-  `rating` ENUM('low', 'mid', 'high') NOT NULL DEFAULT 'low',
+  `rating` ENUM('LOW', 'MID', 'HIGH') NOT NULL DEFAULT 'LOW',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
