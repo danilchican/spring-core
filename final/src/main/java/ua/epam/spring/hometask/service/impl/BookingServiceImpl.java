@@ -2,7 +2,8 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.repository.AuditoriumRepository;
+import ua.epam.spring.hometask.repository.AirDateRepository;
+import ua.epam.spring.hometask.repository.SeatRepository;
 import ua.epam.spring.hometask.repository.TicketRepository;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.BookingService;
@@ -12,6 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,10 +21,13 @@ import java.util.Set;
 public class BookingServiceImpl implements BookingService {
 
     @Autowired
-    private TicketRepository ticketDAO;
+    private TicketRepository ticketRepository;
 
     @Autowired
-    private AuditoriumRepository auditoriumRepository;
+    private AirDateRepository airDateRepository;
+
+    @Autowired
+    private SeatRepository seatRepository;
 
     @Autowired
     private DiscountService discountService;
@@ -34,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime,
                                   @Nullable User user, @Nonnull Set<Long> seats) {
-        Auditorium auditorium = auditoriumRepository.findAuditoriumOnDateTime(event.getAuditoriums(), dateTime);
+        Auditorium auditorium = airDateRepository.findByEventIdAndDateTime(event.getId(), dateTime);
 
         if (auditorium == null) {
             throw new IllegalArgumentException("There is no auditorium for particular date and time.");
@@ -45,32 +50,13 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
-        tickets.forEach(ticketDAO::save);
+        tickets.forEach(ticketRepository::save);
     }
 
     @Nonnull
     @Override
-    public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
-        return ticketDAO.getPurchasedTicketsForEvent(event, dateTime);
-    }
-
-    /**
-     * Calculate event price.
-     *
-     * @param event      Calculate price for event
-     * @param auditorium Auditorium to get count of vip seats
-     * @param seats      Set of seat numbers that user wants to buy
-     * @param countSeats Count of all seats in auditorium
-     * @return event price
-     */
-    private double calculateEventPrice(@Nonnull Event event, @Nonnull Auditorium auditorium,
-                                       @Nonnull Set<Long> seats, int countSeats) {
-        long countVipSeats = countVipSeats(auditorium.getVipSeats(), seats);
-        long countStandardSeats = countSeats - countVipSeats;
-
-        double eventPriceWithRating = ratingCoefficients.get(event.getRating()) * event.getBasePrice();
-
-        return eventPriceWithRating * (countStandardSeats + countVipSeats * vipSeatCoefficient);
+    public List<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
+        return ticketRepository.findByEventIdAndDateTime(event.getId(), dateTime);
     }
 
     /**
@@ -89,7 +75,7 @@ public class BookingServiceImpl implements BookingService {
                                                         Set<Long> seats, LocalDateTime dateTime) {
         int countSeats = seats.size();
 
-        double eventPrice = calculateEventPrice(event, auditorium, seats, countSeats);
+        double eventPrice = calculateEventPrice(event, auditorium, countSeats);
         double eventDiscountPercent = discountService.getDiscount(user, event, dateTime, countSeats);
         double eventDiscount = eventPrice * eventDiscountPercent / 100;
 
@@ -97,14 +83,20 @@ public class BookingServiceImpl implements BookingService {
     }
 
     /**
-     * Counts how many vip seats are there in supplied <code>seats</code>
+     * Calculate event price.
      *
-     * @param vipSeats Vip seats to process
-     * @param seats    Seats to process
-     * @return number of vip seats in request
+     * @param event      Calculate price for event
+     * @param auditorium Auditorium to get count of vip seats
+     * @param countSeats Count of all seats in auditorium
+     * @return event price
      */
-    private long countVipSeats(Set<Long> vipSeats, Collection<Long> seats) {
-        return seats.stream().filter(vipSeats::contains).count();
+    private double calculateEventPrice(@Nonnull Event event, @Nonnull Auditorium auditorium, int countSeats) {
+        long countVipSeats = seatRepository.countByAuditoriumIdAndVipIsTrue(auditorium.getId());
+        long countStandardSeats = countSeats - countVipSeats;
+
+        double eventPriceWithRating = ratingCoefficients.get(event.getRating()) * event.getBasePrice();
+
+        return eventPriceWithRating * (countStandardSeats + countVipSeats * vipSeatCoefficient);
     }
 
     public void setVipSeatCoefficient(double vipSeatCoefficient) {
