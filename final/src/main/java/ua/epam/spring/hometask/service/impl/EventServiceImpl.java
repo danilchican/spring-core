@@ -2,7 +2,8 @@ package ua.epam.spring.hometask.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.repository.AuditoriumRepository;
+import ua.epam.spring.hometask.domain.AirDate;
+import ua.epam.spring.hometask.repository.AirDateRepository;
 import ua.epam.spring.hometask.repository.EventRepository;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
@@ -10,7 +11,6 @@ import ua.epam.spring.hometask.service.EventService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -18,36 +18,43 @@ import java.util.*;
 public class EventServiceImpl implements EventService {
 
     @Autowired
-    private EventRepository eventDAO;
+    private EventRepository eventRepository;
 
     @Autowired
-    private AuditoriumRepository auditoriumRepository;
+    private AirDateRepository airDateRepository;
 
     @Nullable
     @Override
     public Optional<Event> getByName(@Nonnull String name) {
-        return eventDAO.getByName(name);
+        return Optional.ofNullable(eventRepository.findFirstByName(name));
     }
 
     @Nonnull
     @Override
-    public Set<Event> getForDateRange(@Nonnull LocalDate from, @Nonnull LocalDate to) {
-        return eventDAO.getForDateRange(from, to);
+    public List<Event> getForDateRange(@Nonnull LocalDateTime from, @Nonnull LocalDateTime to) {
+        return eventRepository.findEventsByAirDatesDateTimeBetween(from, to);
     }
 
     @Nonnull
     @Override
-    public Set<Event> getNextEvents(@Nonnull LocalDateTime to) {
-        return eventDAO.getNextEvents(to);
+    public List<Event> getNextEvents(@Nonnull LocalDateTime to) {
+        LocalDateTime from = LocalDateTime.now();
+        return eventRepository.findEventsByAirDatesDateTimeBetween(from, to);
     }
 
     @Override
-    public boolean assignAuditorium(Event event, LocalDateTime dateTime, Auditorium auditorium) {
-        NavigableSet<LocalDateTime> airDates = event.getAirDates();
-        NavigableMap<LocalDateTime, Auditorium> auditoriums = event.getAuditoriums();
+    public boolean addAirDateTime(Event event, LocalDateTime dateTime, Auditorium auditorium) {
+        AirDate foundedAirDate = airDateRepository.findByAuditoriumIdAndDateTime(auditorium.getId(), dateTime);
 
-        if (airDates.contains(dateTime)) {
-            auditoriums.put(dateTime, auditorium);
+        /* Auditorium is not aired by date and time */
+        if(foundedAirDate == null) {
+            AirDate airDateForSave = new AirDate();
+
+            airDateForSave.setAuditorium(auditorium);
+            airDateForSave.setDateTime(dateTime);
+            airDateForSave.setEvent(event);
+
+            airDateRepository.save(airDateForSave);
             return true;
         }
 
@@ -55,68 +62,36 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean removeAirDateTime(Event event, LocalDateTime dateTime) {
-        NavigableSet<LocalDateTime> airDates = event.getAirDates();
-        NavigableMap<LocalDateTime, Auditorium> auditoriums = event.getAuditoriums();
+    public boolean removeAirDateTime(Event event, Auditorium auditorium, LocalDateTime dateTime) {
+        AirDate airDate = airDateRepository.findByEventIdAndAuditoriumIdAndDateTime(event.getId(), auditorium.getId(), dateTime);
 
-        boolean isRemoved = airDates.remove(dateTime);
-
-        if (isRemoved) {
-            auditoriums.remove(dateTime);
+        /* Air date exists */
+        if(airDate != null) {
+            airDateRepository.delete(airDate.getId());
+            return true;
         }
 
-        return isRemoved;
+        return false;
     }
 
     @Override
-    public boolean removeAuditoriumAssignment(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime) {
-        return auditoriums.remove(dateTime) != null;
-    }
-
-    @Override
-    public boolean airsOnDate(NavigableSet<LocalDateTime> airDates, LocalDate date) {
-        //TODO Remove when integrated with DB.
-        return airDates.stream().anyMatch(dt -> dt.toLocalDate().equals(date));
-    }
-
-    @Override
-    public boolean airsOnDateTime(NavigableSet<LocalDateTime> airDates, LocalDateTime dateTime) {
-        //TODO Remove when integrated with DB.
-        return airDates.stream().anyMatch(dt -> dt.equals(dateTime));
-    }
-
-    @Override
-    public boolean addAirDateTime(Event event, LocalDateTime dateTime, Auditorium auditorium) {
-        NavigableSet<LocalDateTime> airDates = event.getAirDates();
-
-        boolean result = eventDAO.addAirDateTime(airDates, dateTime);
-
-        if (result) {
-            // TODO duplicate assignAuditorium
-            assignAuditorium(event, dateTime, auditorium);
-        }
-
-        return result;
-    }
-
-    @Override
-    public Optional<Event> save(@Nonnull Event object) {
-        return eventDAO.save(object);
+    public Event save(@Nonnull Event object) {
+        return eventRepository.save(object);
     }
 
     @Override
     public void remove(@Nonnull Event object) {
-        eventDAO.remove(object);
+        eventRepository.delete(object);
     }
 
     @Override
-    public Optional<Event> getById(@Nonnull Long id) {
-        return eventDAO.getById(id);
+    public Optional<Event> findById(@Nonnull Long id) {
+        return Optional.ofNullable(eventRepository.findOne(id));
     }
 
     @Nonnull
     @Override
     public Collection<Event> getAll() {
-        return eventDAO.getAll();
+        return eventRepository.findAll();
     }
 }

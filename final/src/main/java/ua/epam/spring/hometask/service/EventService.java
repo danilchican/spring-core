@@ -6,7 +6,6 @@ import ua.epam.spring.hometask.domain.Event;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -44,38 +43,6 @@ public interface EventService extends AbstractDomainObjectService<Event> {
     List<Event> getNextEvents(@Nonnull LocalDateTime to);
 
     /**
-     * Checks if event is aired on particular <code>dateTime</code> and assigns
-     * auditorium to it.
-     *
-     * @param event      Event to check is aired
-     * @param dateTime   Date and time of aired event for which to assign
-     * @param auditorium Auditorium that should be assigned
-     * @return <code>true</code> if successful, <code>false</code> if event is
-     * not aired on that date
-     */
-    boolean assignAuditorium(Event event, LocalDateTime dateTime, Auditorium auditorium);
-
-    /**
-     * Removes the date and time of event air. If auditorium was assigned to
-     * that date and time - the assignment is also removed
-     *
-     * @param event    Event to retrieve airDates and auditoriums
-     * @param dateTime Date and time to remove
-     * @return <code>true</code> if successful, <code>false</code> if not there
-     */
-    boolean removeAirDateTime(Event event, LocalDateTime dateTime);
-
-    /**
-     * Removes auditorium assignment from event
-     *
-     * @param auditoriums auditoriums for event
-     * @param dateTime    Date and time to remove auditorium for
-     * @return <code>true</code> if successful, <code>false</code> if not
-     * removed
-     */
-    boolean removeAuditoriumAssignment(NavigableMap<LocalDateTime, Auditorium> auditoriums, LocalDateTime dateTime);
-
-    /**
      * Adding date and time of event air and assigning auditorium to that
      *
      * @param event      Event to add air date and time
@@ -85,4 +52,14 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * there
      */
     boolean addAirDateTime(Event event, LocalDateTime dateTime, Auditorium auditorium);
+
+    /**
+     * Removes the air date of event by assigned auditorium.
+     *
+     * @param event      Event to find air date
+     * @param auditorium Auditorium to find air date
+     * @param dateTime   Date and time to remove
+     * @return <code>true</code> if successful, <code>false</code> if not there
+     */
+    boolean removeAirDateTime(Event event, Auditorium auditorium, LocalDateTime dateTime);
 }
