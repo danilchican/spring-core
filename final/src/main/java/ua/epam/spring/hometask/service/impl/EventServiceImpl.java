@@ -38,8 +38,7 @@ public class EventServiceImpl implements EventService {
     @Nonnull
     @Override
     public List<Event> getNextEvents(@Nonnull LocalDateTime to) {
-        LocalDateTime from = LocalDateTime.now();
-        return eventRepository.findEventsByAirDatesDateTimeBetween(from, to);
+        return getForDateRange(LocalDateTime.now(), to);
     }
 
     @Override
