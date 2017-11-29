@@ -20,9 +20,19 @@ public interface AirDateRepository extends JpaRepository<AirDate, Long> {
     /**
      * Check if the auditorium is not aired by particular datetime.
      *
-     * @param auditoriumId
-     * @param dateTime Date and time for auditorium
+     * @param auditoriumId Auditorium to checking
+     * @param dateTime     Date and time for auditorium
      * @return founded air date
      */
     AirDate findByAuditoriumIdAndDateTime(Long auditoriumId, LocalDateTime dateTime);
+
+    /**
+     * Check if the auditorium is not aired by particular datetime for the event.
+     *
+     * @param eventId      Event to checking
+     * @param auditoriumId Auditorium to checking
+     * @param dateTime     Date and time for auditorium
+     * @return founded air date
+     */
+    AirDate findByEventIdAndAuditoriumIdAndDateTime(Long eventId, Long auditoriumId, LocalDateTime dateTime);
 }
