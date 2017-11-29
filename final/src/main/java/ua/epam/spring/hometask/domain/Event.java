@@ -3,7 +3,6 @@ package ua.epam.spring.hometask.domain;
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Entity
 @Table(name = "events")
@@ -12,20 +11,14 @@ public class Event extends AbstractEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-    private Set<AirDate> airDates = new TreeSet<>();
-
     @Column(name = "base_price")
     private double basePrice;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+    private Set<AirDate> airDates;
+
     @Enumerated(EnumType.STRING)
     private EventRating rating;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "event_auditorium",
-            joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id",  foreignKey = @ForeignKey(name = "ea_event_id_fk")),
-            inverseJoinColumns = @JoinColumn(name = "auditorium_id", referencedColumnName = "id",  foreignKey = @ForeignKey(name = "ea_auditorium_id_fk")))
-    private Set<Auditorium> auditoriums;
 
     public String getName() {
         return name;
@@ -57,14 +50,6 @@ public class Event extends AbstractEntity {
 
     public void setRating(EventRating rating) {
         this.rating = rating;
-    }
-
-    public Set<Auditorium> getAuditoriums() {
-        return auditoriums;
-    }
-
-    public void setAuditoriums(Set<Auditorium> auditoriums) {
-        this.auditoriums = auditoriums;
     }
 
     @Override

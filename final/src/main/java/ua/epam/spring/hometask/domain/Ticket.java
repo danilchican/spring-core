@@ -1,7 +1,6 @@
 package ua.epam.spring.hometask.domain;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tickets")
@@ -12,15 +11,15 @@ public class Ticket extends AbstractEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id", nullable = false, foreignKey = @ForeignKey(name = "tickets_event_id_fk"))
-    private Event event;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seat_id", nullable = false, foreignKey = @ForeignKey(name = "tickets_seat_id_fk"))
     private Seat seat;
 
-    @Column(name = "datetime")
-    private LocalDateTime dateTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id", nullable = false, foreignKey = @ForeignKey(name = "tickets_event_id_fk"))
+    private Event event;
+
+    @Column(name = "ticket_price")
+    private double ticketPrice;
 
     public Long getId() {
         return id;
@@ -54,11 +53,11 @@ public class Ticket extends AbstractEntity {
         this.seat = seat;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public double getTicketPrice() {
+        return ticketPrice;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setTicketPrice(double ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 }
