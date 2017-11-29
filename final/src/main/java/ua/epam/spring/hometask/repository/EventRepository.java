@@ -23,5 +23,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param to   End date inclusive
      * @return Set of events
      */
-    List<Event> findEventsByAirDates_dateTimeBetween(LocalDateTime from, LocalDateTime to);
+    List<Event> findEventsByAirDatesDateTimeBetween(LocalDateTime from, LocalDateTime to);
 }
