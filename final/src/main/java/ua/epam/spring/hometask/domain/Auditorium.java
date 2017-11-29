@@ -2,7 +2,6 @@ package ua.epam.spring.hometask.domain;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.TreeSet;
 
 @Entity
 @Table(name = "auditoriums")
@@ -11,11 +10,11 @@ public class Auditorium extends AbstractEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "auditorium")
-    private Set<Seat> seats = new TreeSet<>();
+    @Column(name = "seats_available")
+    private Long seatsAvailable;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "auditoriums")
-    private Set<Event> events;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "auditorium")
+    private Set<Seat> seats;
 
     public Auditorium() {
     }
@@ -36,11 +35,11 @@ public class Auditorium extends AbstractEntity {
         this.seats = seats;
     }
 
-    public Set<Event> getEvents() {
-        return events;
+    public Long getSeatsAvailable() {
+        return seatsAvailable;
     }
 
-    public void setEvents(Set<Event> events) {
-        this.events = events;
+    public void setSeatsAvailable(Long seatsAvailable) {
+        this.seatsAvailable = seatsAvailable;
     }
 }

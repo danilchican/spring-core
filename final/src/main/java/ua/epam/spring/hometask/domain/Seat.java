@@ -16,6 +16,9 @@ public class Seat extends AbstractEntity {
     @Column(name = "number")
     private int number;
 
+    @Column(name = "row")
+    private int row;
+
     public Auditorium getAuditorium() {
         return auditorium;
     }
@@ -38,6 +41,14 @@ public class Seat extends AbstractEntity {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
     }
 
     @Override

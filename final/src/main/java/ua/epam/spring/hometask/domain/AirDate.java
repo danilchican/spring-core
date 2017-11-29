@@ -14,6 +14,10 @@ public class AirDate extends AbstractEntity {
     @JoinColumn(name = "event_id", nullable = false, foreignKey = @ForeignKey(name = "dates_event_id_fk"))
     private Event event;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auditorium_id", nullable = false, foreignKey = @ForeignKey(name = "dates_auditorium_id_fk"))
+    private Auditorium auditorium;
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -28,5 +32,13 @@ public class AirDate extends AbstractEntity {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public Auditorium getAuditorium() {
+        return auditorium;
+    }
+
+    public void setAuditorium(Auditorium auditorium) {
+        this.auditorium = auditorium;
     }
 }
