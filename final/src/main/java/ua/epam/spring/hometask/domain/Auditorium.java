@@ -11,7 +11,7 @@ public class Auditorium extends AbstractEntity {
     private String name;
 
     @Column(name = "seats_available")
-    private Long seatsAvailable;
+    private int seatsAvailable;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auditorium")
     private Set<Seat> seats;
@@ -35,11 +35,11 @@ public class Auditorium extends AbstractEntity {
         this.seats = seats;
     }
 
-    public Long getSeatsAvailable() {
+    public int getSeatsAvailable() {
         return seatsAvailable;
     }
 
-    public void setSeatsAvailable(Long seatsAvailable) {
+    public void setSeatsAvailable(int seatsAvailable) {
         this.seatsAvailable = seatsAvailable;
     }
 }
