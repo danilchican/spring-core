@@ -7,6 +7,7 @@ import ua.epam.spring.hometask.repository.AirDateRepository;
 import ua.epam.spring.hometask.repository.EventRepository;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.service.AirDateService;
 import ua.epam.spring.hometask.service.EventService;
 
 import javax.annotation.Nonnull;
@@ -22,6 +23,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private AirDateRepository airDateRepository;
+
+    @Autowired
+    private AirDateService airDateService;
 
     @Nullable
     @Override
@@ -47,13 +51,7 @@ public class EventServiceImpl implements EventService {
 
         /* Auditorium is not aired by date and time */
         if(foundedAirDate == null) {
-            AirDate airDateForSave = new AirDate();
-
-            airDateForSave.setAuditorium(auditorium);
-            airDateForSave.setDateTime(dateTime);
-            airDateForSave.setEvent(event);
-
-            airDateRepository.save(airDateForSave);
+            airDateService.addAirDate(event, dateTime, auditorium);
             return true;
         }
 
