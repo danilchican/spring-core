@@ -12,7 +12,6 @@ import ua.epam.spring.hometask.service.DiscountService;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,7 +55,7 @@ public class BookingServiceImpl implements BookingService {
     @Nonnull
     @Override
     public List<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
-        return ticketRepository.findByEventIdAndDateTime(event.getId(), dateTime);
+        return ticketRepository.findByAirDateEventIdAndAirDateDateTime(event.getId(), dateTime);
     }
 
     /**
