@@ -12,6 +12,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javax-persistence.version>2.2</javax-persistence.version>
+        <javax.servlet-api>4.0.0</javax.servlet-api>
 
         <spring.version>4.3.12.RELEASE</spring.version>
         <spring-data-jpa.version>1.11.3.RELEASE</spring-data-jpa.version>
@@ -187,6 +188,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet-api}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Testing -->
