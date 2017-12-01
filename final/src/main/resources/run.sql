@@ -33,11 +33,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `order_db`.`auditorium`
+-- Table `order_db`.`auditoriums`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `order_db`.`auditorium` ;
+DROP TABLE IF EXISTS `order_db`.`auditoriums` ;
 
-CREATE TABLE IF NOT EXISTS `order_db`.`auditorium` (
+CREATE TABLE IF NOT EXISTS `order_db`.`auditoriums` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `seats_available` INT NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `order_db`.`seats` (
   INDEX `auditorium_id_fk_idx` (`auditorium_id` ASC),
   CONSTRAINT `seats_auditorium_id_fk`
     FOREIGN KEY (`auditorium_id`)
-    REFERENCES `order_db`.`auditorium` (`id`)
+    REFERENCES `order_db`.`auditoriums` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `order_db`.`dates` (
     ON UPDATE NO ACTION,
   CONSTRAINT `dates_auditorium_id_fk`
     FOREIGN KEY (`auditorium_id`)
-    REFERENCES `order_db`.`auditorium` (`id`)
+    REFERENCES `order_db`.`auditoriums` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

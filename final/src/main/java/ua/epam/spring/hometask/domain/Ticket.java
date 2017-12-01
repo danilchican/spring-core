@@ -15,8 +15,8 @@ public class Ticket extends AbstractEntity {
     private Seat seat;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id", nullable = false, foreignKey = @ForeignKey(name = "tickets_event_id_fk"))
-    private Event event;
+    @JoinColumn(name = "date_id", nullable = false, foreignKey = @ForeignKey(name = "tickets_dates_id_fk"))
+    private AirDate airDate;
 
     @Column(name = "ticket_price")
     private double ticketPrice;
@@ -37,12 +37,12 @@ public class Ticket extends AbstractEntity {
         this.user = user;
     }
 
-    public Event getEvent() {
-        return event;
+    public AirDate getAirDate() {
+        return airDate;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setAirDate(AirDate airDate) {
+        this.airDate = airDate;
     }
 
     public Seat getSeat() {

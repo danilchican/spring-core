@@ -15,5 +15,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
      * @param dateTime Date and time of airing of event
      * @return set of all purchased tickets
      */
-    List<Ticket> findByEventIdAndDateTime(Long eventId, LocalDateTime dateTime);
+    List<Ticket> findByAirDateEventIdAndAirDateDateTime(Long eventId, LocalDateTime dateTime);
 }
