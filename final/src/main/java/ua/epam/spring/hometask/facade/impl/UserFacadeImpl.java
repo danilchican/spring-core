@@ -23,10 +23,8 @@ public class UserFacadeImpl implements UserFacade {
     public UserDTO findUserByEmail(String email) {
         Optional<User> user = userService.findUserByEmail(email);
 
-        if(user.isPresent()) {
-            return userConverter.convertToDTO(user.get());
-        }
-
-        return null;
+        return user.isPresent()
+                ? userConverter.convertToDTO(user.get())
+                : null;
     }
 }
