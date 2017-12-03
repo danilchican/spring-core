@@ -4,13 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.converter.AirDateConverter;
 import ua.epam.spring.hometask.converter.AuditoriumConverter;
-import ua.epam.spring.hometask.converter.EventConverter;
 import ua.epam.spring.hometask.domain.AirDate;
-import ua.epam.spring.hometask.domain.Auditorium;
-import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.dto.AirDateDTO;
-import ua.epam.spring.hometask.dto.AuditoriumDTO;
-import ua.epam.spring.hometask.dto.EventDTO;
 
 @Component
 public class AirDateConverterImpl implements AirDateConverter {
@@ -19,38 +14,29 @@ public class AirDateConverterImpl implements AirDateConverter {
     private AuditoriumConverter auditoriumConverter;
 
     @Autowired
-    private EventConverter eventConverter;
+    private EventConverterImpl eventConverter;
 
     @Override
-    public AirDate createFromDTO(AirDateDTO dto) {
-        return updateEntity(new AirDate(), dto);
-    }
-
-    @Override
-    public AirDateDTO createFromEntity(AirDate entity) {
-        AirDateDTO dto = new AirDateDTO();
-
-        AuditoriumDTO auditoriumDTO = auditoriumConverter.createFromEntity(entity.getAuditorium());
-        EventDTO eventDTO = eventConverter.createFromEntity(entity.getEvent());
-
-        dto.setId(entity.getId());
-        dto.setAuditorium(auditoriumDTO);
-        dto.setDateTime(entity.getDateTime());
-        dto.setEvent(eventDTO);
-
-        return dto;
-    }
-
-    @Override
-    public AirDate updateEntity(AirDate entity, AirDateDTO dto) {
-        Auditorium auditorium = auditoriumConverter.createFromDTO(dto.getAuditorium());
-        Event event = eventConverter.createFromDTO(dto.getEvent());
+    public AirDate convertToEntity(AirDateDTO dto) {
+        AirDate entity = new AirDate();
 
         entity.setId(dto.getId());
-        entity.setAuditorium(auditorium);
+        entity.setAuditorium(auditoriumConverter.convertToEntity(dto.getAuditorium()));
         entity.setDateTime(dto.getDateTime());
-        entity.setEvent(event);
+        entity.setEvent(eventConverter.convertToEntity(dto.getEvent()));
 
         return entity;
+    }
+
+    @Override
+    public AirDateDTO convertToDTO(AirDate entity) {
+        AirDateDTO dto = new AirDateDTO();
+
+        dto.setId(entity.getId());
+        dto.setAuditorium(auditoriumConverter.convertToDTO(entity.getAuditorium()));
+        dto.setDateTime(entity.getDateTime());
+        dto.setEvent(eventConverter.convertToDTO(entity.getEvent()));
+
+        return dto;
     }
 }

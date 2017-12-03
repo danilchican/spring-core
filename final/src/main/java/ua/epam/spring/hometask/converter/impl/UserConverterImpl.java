@@ -4,12 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.converter.Converter;
 import ua.epam.spring.hometask.converter.TicketConverter;
-import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
-import ua.epam.spring.hometask.dto.TicketDTO;
 import ua.epam.spring.hometask.dto.UserDTO;
-
-import java.util.Set;
 
 @Component
 public class UserConverterImpl implements Converter<User, UserDTO> {
@@ -18,13 +14,21 @@ public class UserConverterImpl implements Converter<User, UserDTO> {
     private TicketConverter ticketConverter;
 
     @Override
-    public User createFromDTO(UserDTO dto) {
-        return updateEntity(new User(), dto);
+    public User convertToEntity(UserDTO dto) {
+        User entity = new User();
+
+        entity.setId(dto.getId());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setBirthday(dto.getBirthday());
+        entity.setEmail(dto.getEmail());
+        entity.setTickets(ticketConverter.convertToEntitySet(dto.getTickets()));
+
+        return entity;
     }
 
     @Override
-    public UserDTO createFromEntity(User entity) {
-        Set<TicketDTO> tickets = ticketConverter.createSetFromEntities(entity.getTickets());
+    public UserDTO convertToDTO(User entity) {
         UserDTO dto = new UserDTO();
 
         dto.setId(entity.getId());
@@ -32,22 +36,8 @@ public class UserConverterImpl implements Converter<User, UserDTO> {
         dto.setLastName(entity.getLastName());
         dto.setEmail(entity.getEmail());
         dto.setBirthday(entity.getBirthday());
-        dto.setTickets(tickets);
+        dto.setTickets(ticketConverter.convertToDTOSet(entity.getTickets()));
 
         return dto;
-    }
-
-    @Override
-    public User updateEntity(User entity, UserDTO dto) {
-        Set<Ticket> tickets = ticketConverter.createSetFromDtos(dto.getTickets());
-
-        entity.setId(dto.getId());
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setBirthday(dto.getBirthday());
-        entity.setEmail(dto.getEmail());
-        entity.setTickets(tickets);
-
-        return entity;
     }
 }
