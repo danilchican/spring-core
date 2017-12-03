@@ -1,17 +1,20 @@
 package ua.epam.spring.hometask.converter.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ua.epam.spring.hometask.converter.AuditoriumConverter;
-import ua.epam.spring.hometask.converter.SeatConverter;
+import ua.epam.spring.hometask.converter.Converter;
+import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Seat;
+import ua.epam.spring.hometask.dto.AuditoriumDTO;
 import ua.epam.spring.hometask.dto.SeatDTO;
 
-@Component
-public class SeatConverterImpl implements SeatConverter {
+@Component("seatConverter")
+public class SeatConverterImpl implements Converter<Seat, SeatDTO> {
 
     @Autowired
-    private AuditoriumConverter auditoriumConverter;
+    @Qualifier("auditoriumConverter")
+    private Converter<Auditorium, AuditoriumDTO> auditoriumConverter;
 
     @Override
     public Seat convertToEntity(SeatDTO dto) {

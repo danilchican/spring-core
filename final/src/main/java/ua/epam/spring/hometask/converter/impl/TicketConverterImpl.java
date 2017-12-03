@@ -1,24 +1,32 @@
 package ua.epam.spring.hometask.converter.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ua.epam.spring.hometask.converter.AirDateConverter;
 import ua.epam.spring.hometask.converter.Converter;
-import ua.epam.spring.hometask.converter.SeatConverter;
+import ua.epam.spring.hometask.domain.AirDate;
+import ua.epam.spring.hometask.domain.Seat;
 import ua.epam.spring.hometask.domain.Ticket;
+import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.dto.AirDateDTO;
+import ua.epam.spring.hometask.dto.SeatDTO;
 import ua.epam.spring.hometask.dto.TicketDTO;
+import ua.epam.spring.hometask.dto.UserDTO;
 
-@Component
+@Component("ticketConverter")
 public class TicketConverterImpl implements Converter<Ticket, TicketDTO> {
 
     @Autowired
-    private AirDateConverter airDateConverter;
+    @Qualifier("airDateConverter")
+    private Converter<AirDate, AirDateDTO> airDateConverter;
 
     @Autowired
-    private SeatConverter seatConverter;
+    @Qualifier("seatConverter")
+    private Converter<Seat, SeatDTO> seatConverter;
 
     @Autowired
-    private UserConverterImpl userConverter;
+    @Qualifier("userConverter")
+    private Converter<User, UserDTO> userConverter;
 
     @Override
     public Ticket convertToEntity(TicketDTO dto) {

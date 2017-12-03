@@ -1,20 +1,26 @@
 package ua.epam.spring.hometask.converter.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ua.epam.spring.hometask.converter.AirDateConverter;
-import ua.epam.spring.hometask.converter.AuditoriumConverter;
+import ua.epam.spring.hometask.converter.Converter;
 import ua.epam.spring.hometask.domain.AirDate;
+import ua.epam.spring.hometask.domain.Auditorium;
+import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.dto.AirDateDTO;
+import ua.epam.spring.hometask.dto.AuditoriumDTO;
+import ua.epam.spring.hometask.dto.EventDTO;
 
-@Component
-public class AirDateConverterImpl implements AirDateConverter {
+@Component("airDateConverter")
+public class AirDateConverterImpl implements Converter<AirDate, AirDateDTO> {
 
     @Autowired
-    private AuditoriumConverter auditoriumConverter;
+    @Qualifier("auditoriumConverter")
+    private Converter<Auditorium, AuditoriumDTO> auditoriumConverter;
 
     @Autowired
-    private EventConverterImpl eventConverter;
+    @Qualifier("eventConverter")
+    private Converter<Event, EventDTO> eventConverter;
 
     @Override
     public AirDate convertToEntity(AirDateDTO dto) {
