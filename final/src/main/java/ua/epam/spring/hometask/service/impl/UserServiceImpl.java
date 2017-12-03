@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
      */
     @Nullable
     @Override
-    public Optional<User> getUserByEmail(@Nonnull String email) {
+    public Optional<User> findUserByEmail(@Nonnull String email) {
         return Optional.ofNullable(userRepository.findFirstByEmail(email));
     }
 
