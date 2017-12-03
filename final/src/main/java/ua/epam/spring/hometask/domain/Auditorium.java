@@ -16,9 +16,6 @@ public class Auditorium extends AbstractEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "auditorium")
     private Set<Seat> seats;
 
-    public Auditorium() {
-    }
-
     public String getName() {
         return name;
     }
