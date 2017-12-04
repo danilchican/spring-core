@@ -51,7 +51,13 @@ public class EventServiceImpl implements EventService {
 
         /* Auditorium is not aired by date and time */
         if(foundedAirDate == null) {
-            airDateService.addAirDate(event, dateTime, auditorium);
+            AirDate airDateToSave = new AirDate();
+
+            airDateToSave.setEvent(event);
+            airDateToSave.setDateTime(dateTime);
+            airDateToSave.setAuditorium(auditorium);
+
+            airDateService.addAirDate(airDateToSave);
             return true;
         }
 
