@@ -29,20 +29,20 @@ public class EventServiceImpl implements EventService {
 
     @Nullable
     @Override
-    public Optional<Event> getByName(@Nonnull String name) {
+    public Optional<Event> findByName(@Nonnull String name) {
         return Optional.ofNullable(eventRepository.findFirstByName(name));
     }
 
     @Nonnull
     @Override
-    public List<Event> getForDateRange(@Nonnull LocalDateTime from, @Nonnull LocalDateTime to) {
+    public List<Event> findForDateRange(@Nonnull LocalDateTime from, @Nonnull LocalDateTime to) {
         return eventRepository.findEventsByAirDatesDateTimeBetween(from, to);
     }
 
     @Nonnull
     @Override
-    public List<Event> getNextEvents(@Nonnull LocalDateTime to) {
-        return getForDateRange(LocalDateTime.now(), to);
+    public List<Event> findNextEvents(@Nonnull LocalDateTime to) {
+        return findForDateRange(LocalDateTime.now(), to);
     }
 
     @Override

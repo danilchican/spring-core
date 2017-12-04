@@ -24,7 +24,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
      */
     @Nonnull
     @Override
-    public List<Auditorium> getAll() {
+    public List<Auditorium> findAll() {
         return auditoriumRepository.findAll();
     }
 
@@ -36,7 +36,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
      */
     @Nullable
     @Override
-    public Optional<Auditorium> getByName(@Nonnull String name) {
+    public Optional<Auditorium> findByName(@Nonnull String name) {
         return Optional.ofNullable(auditoriumRepository.findFirstByName(name));
     }
 }
