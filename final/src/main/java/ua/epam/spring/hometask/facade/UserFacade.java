@@ -32,14 +32,14 @@ public interface UserFacade {
     /**
      * Remove user if exists.
      *
-     * @param userId
+     * @param userId user id to remove
      */
     void delete(long userId);
 
     /**
      * Find user by id.
      *
-     * @param userId
+     * @param userId user id to search
      * @return founded user
      */
     Optional<UserDTO> findById(long userId);

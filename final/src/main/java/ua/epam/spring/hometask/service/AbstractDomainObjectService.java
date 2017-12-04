@@ -14,8 +14,7 @@ public interface AbstractDomainObjectService<T> {
     /**
      * Saving new object to repository or updating existing one
      *
-     * @param object Object to save
-     * @return saved object with assigned id
+     * @param object Object to addAirDate
      */
     void save(@Nonnull T object);
 
