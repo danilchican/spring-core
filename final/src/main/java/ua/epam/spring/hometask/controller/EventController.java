@@ -9,7 +9,6 @@ import ua.epam.spring.hometask.dto.EventDTO;
 import ua.epam.spring.hometask.facade.EventFacade;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 @RequestMapping("/events")

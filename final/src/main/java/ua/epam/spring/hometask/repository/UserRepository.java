@@ -12,4 +12,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return found user or <code>null</code>
      */
     User findFirstByEmail(String email);
+
+    /**
+     * Delete user by id.
+     *
+     * @param userId
+     * @return count of modified rows
+     */
+    Long deleteById(Long userId);
 }

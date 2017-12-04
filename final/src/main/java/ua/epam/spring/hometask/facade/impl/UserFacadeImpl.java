@@ -44,7 +44,7 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public void delete(long userId) {
-        userService.findById(userId).ifPresent(userService::remove);
+        userService.deleteUserById(userId);
     }
 
     @Override

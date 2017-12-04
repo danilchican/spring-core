@@ -20,4 +20,11 @@ public interface UserService extends AbstractDomainObjectService<User> {
      */
     @Nullable
     Optional<User> findUserByEmail(@Nonnull String email);
+
+    /**
+     * Delete user by id.
+     *
+     * @param userId
+     */
+    void deleteUserById(long userId);
 }
