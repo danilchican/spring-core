@@ -22,16 +22,8 @@ public class AirDateServiceImpl implements AirDateService {
     }
 
     @Override
-    public boolean removeAirDateTime(Event event, Auditorium auditorium, LocalDateTime dateTime) {
-        AirDate airDate = airDateRepository.findByEventIdAndAuditoriumIdAndDateTime(event.getId(), auditorium.getId(), dateTime);
-
-        /* Air date exists */
-        if(airDate != null) {
-            airDateRepository.delete(airDate.getId());
-            return true;
-        }
-
-        return false;
+    public void removeAirDateTime(AirDate airDate) {
+        airDateRepository.delete(airDate.getId());
     }
 
     private AirDate createAirDate(AirDate airDate) {

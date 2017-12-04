@@ -14,13 +14,11 @@ public interface AirDateService {
      * @param airDate
      */
     void addAirDate(AirDate airDate);
+
     /**
      * Removes the air date of event by assigned auditorium.
      *
-     * @param event      Event to find air date
-     * @param auditorium Auditorium to find air date
-     * @param dateTime   Date and time to remove
-     * @return <code>true</code> if successful, <code>false</code> if not there
+     * @param airDate date to remove
      */
-    boolean removeAirDateTime(Event event, Auditorium auditorium, LocalDateTime dateTime);
+    void removeAirDateTime(AirDate airDate);
 }
