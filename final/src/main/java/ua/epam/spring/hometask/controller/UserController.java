@@ -2,10 +2,10 @@ package ua.epam.spring.hometask.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ua.epam.spring.hometask.dto.UserDTO;
 import ua.epam.spring.hometask.facade.UserFacade;
 
 @Controller
@@ -15,11 +15,34 @@ public class UserController {
     @Autowired
     private UserFacade userFacade;
 
-    @RequestMapping(value = "/search/{email}", method = RequestMethod.GET)
+    @GetMapping("/search/{email}")
     public ModelAndView searchUserByEmail(@PathVariable("email") String email) {
         ModelAndView modelAndView = new ModelAndView("users/view");
-
         userFacade.findUserByEmail(email).ifPresent(user -> modelAndView.addObject("user", user));
+
         return modelAndView;
+    }
+
+    @GetMapping
+    public String viewAll(Model model) {
+        model.addAttribute("users", userFacade.findAll());
+        return "users/view/index";
+    }
+
+    @GetMapping("/create")
+    public String save(Model model) {
+        model.addAttribute("user", new UserDTO());
+        return "users/create";
+    }
+
+    @PostMapping("/create")
+    public String save(@ModelAttribute("user") UserDTO user) {
+        userFacade.save(user);
+        return "redirect:/users";
+    }
+
+    @PostMapping
+    public String delete() {
+        return "redirect:/users";
     }
 }
