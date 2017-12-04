@@ -33,8 +33,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Saving new object to repository or updating existing one
      *
-     * @param object Object to save
-     * @return saved object with assigned id
+     * @param object Object to addAirDate
      */
     @Override
     public void save(@Nonnull User object) {

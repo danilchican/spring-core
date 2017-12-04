@@ -19,7 +19,7 @@ public interface AuditoriumService {
      * @return set of all auditoriums
      */
     @Nonnull
-    List<Auditorium> getAll();
+    List<Auditorium> findAll();
 
     /**
      * Finding auditorium by name
@@ -28,5 +28,5 @@ public interface AuditoriumService {
      * @return found auditorium or <code>null</code>
      */
     @Nullable
-    Optional<Auditorium> getByName(@Nonnull String name);
+    Optional<Auditorium> findByName(@Nonnull String name);
 }

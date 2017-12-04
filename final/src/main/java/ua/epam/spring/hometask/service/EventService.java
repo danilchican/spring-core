@@ -21,7 +21,7 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * @return found event or <code>null</code>
      */
     @Nullable
-    Optional<Event> getByName(@Nonnull String name);
+    Optional<Event> findByName(@Nonnull String name);
 
     /**
      * Finding all events that air on specified date range
@@ -31,7 +31,7 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * @return Set of events
      */
     @Nonnull
-    List<Event> getForDateRange(@Nonnull LocalDateTime from, @Nonnull LocalDateTime to);
+    List<Event> findForDateRange(@Nonnull LocalDateTime from, @Nonnull LocalDateTime to);
 
     /**
      * Return events from 'now' till the the specified date time
@@ -40,7 +40,7 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * @return Set of events
      */
     @Nonnull
-    List<Event> getNextEvents(@Nonnull LocalDateTime to);
+    List<Event> findNextEvents(@Nonnull LocalDateTime to);
 
     /**
      * Adding date and time of event air and assigning auditorium to that
