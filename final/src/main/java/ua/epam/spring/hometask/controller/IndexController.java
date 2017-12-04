@@ -2,12 +2,11 @@ package ua.epam.spring.hometask.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-@Controller
+@Controller("/")
 public class IndexController {
 
-    @GetMapping("/")
+    @GetMapping
     public String index() {
         return "index";
     }

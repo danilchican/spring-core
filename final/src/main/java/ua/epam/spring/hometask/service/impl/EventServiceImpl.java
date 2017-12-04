@@ -72,8 +72,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event save(@Nonnull Event object) {
-        return eventRepository.save(object);
+    public void save(@Nonnull Event object) {
+        eventRepository.save(object);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class EventServiceImpl implements EventService {
 
     @Nonnull
     @Override
-    public Collection<Event> getAll() {
+    public List<Event> findAll() {
         return eventRepository.findAll();
     }
 }
