@@ -1,6 +1,6 @@
 package ua.epam.spring.hometask.service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
@@ -40,5 +40,5 @@ public interface AbstractDomainObjectService<T> {
      * @return collection of objects
      */
     @Nonnull
-    Collection<T> getAll();
+    List<T> findAll();
 }

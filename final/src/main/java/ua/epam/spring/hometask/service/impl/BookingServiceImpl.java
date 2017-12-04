@@ -49,7 +49,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
-        tickets.forEach(ticketRepository::save);
+        ticketRepository.save(tickets);
     }
 
     @Nonnull

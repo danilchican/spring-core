@@ -88,7 +88,7 @@ public class EventServiceImpl implements EventService {
 
     @Nonnull
     @Override
-    public Collection<Event> getAll() {
+    public List<Event> findAll() {
         return eventRepository.findAll();
     }
 }
