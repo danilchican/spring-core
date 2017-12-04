@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.facade.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.converter.Converter;
 import ua.epam.spring.hometask.domain.Event;
@@ -20,6 +21,7 @@ public class EventFacadeImpl implements EventFacade {
     private EventService eventService;
 
     @Autowired
+    @Qualifier("eventConverter")
     private Converter<Event, EventDTO> eventConverter;
 
     @Override

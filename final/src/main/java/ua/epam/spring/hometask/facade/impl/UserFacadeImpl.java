@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.facade.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.converter.Converter;
 import ua.epam.spring.hometask.domain.User;
@@ -19,6 +20,7 @@ public class UserFacadeImpl implements UserFacade {
     private UserService userService;
 
     @Autowired
+    @Qualifier("userConverter")
     private Converter<User, UserDTO> userConverter;
 
     @Override

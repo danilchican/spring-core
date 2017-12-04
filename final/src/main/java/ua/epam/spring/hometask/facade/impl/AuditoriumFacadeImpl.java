@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.facade.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.converter.Converter;
 import ua.epam.spring.hometask.domain.Auditorium;
@@ -19,6 +20,7 @@ public class AuditoriumFacadeImpl implements AuditoriumFacade {
     private AuditoriumService auditoriumService;
 
     @Autowired
+    @Qualifier("auditoriumConverter")
     private Converter<Auditorium, AuditoriumDTO> auditoriumConverter;
 
     @Override
