@@ -19,7 +19,6 @@ public class AirDateFacadeImpl implements AirDateFacade {
 
     @Override
     public void addAirDate(AirDateDTO date) {
-        AirDate dateEntity = airDateConverter.convertToEntity(date);
-        airDateService.addAirDate(dateEntity.getEvent(), dateEntity.getDateTime(), dateEntity.getAuditorium());
+        airDateService.addAirDate(airDateConverter.convertToEntity(date));
     }
 }
