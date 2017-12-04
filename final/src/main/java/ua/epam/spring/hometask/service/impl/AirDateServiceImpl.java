@@ -17,13 +17,13 @@ public class AirDateServiceImpl implements AirDateService {
     private AirDateRepository airDateRepository;
 
     @Override
-    public void addAirDate(Event event, LocalDateTime dateTime, Auditorium auditorium) {
-        AirDate airDate = new AirDate();
+    public void addAirDate(AirDate airDate) {
+        AirDate airDateToSave = new AirDate();
 
-        airDate.setAuditorium(auditorium);
-        airDate.setDateTime(dateTime);
-        airDate.setEvent(event);
+        airDateToSave.setAuditorium(airDate.getAuditorium());
+        airDateToSave.setDateTime(airDate.getDateTime());
+        airDateToSave.setEvent(airDate.getEvent());
 
-        airDateRepository.save(airDate);
+        airDateRepository.save(airDateToSave);
     }
 }
