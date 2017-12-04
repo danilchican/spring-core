@@ -21,12 +21,6 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    @Autowired
-    private AirDateRepository airDateRepository;
-
-    @Autowired
-    private AirDateService airDateService;
-
     @Nullable
     @Override
     public Optional<Event> findByName(@Nonnull String name) {
@@ -43,6 +37,11 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> findNextEvents(@Nonnull LocalDateTime to) {
         return findForDateRange(LocalDateTime.now(), to);
+    }
+
+    @Override
+    public void deleteEventById(long eventId) {
+        eventRepository.deleteById(eventId);
     }
 
     @Override

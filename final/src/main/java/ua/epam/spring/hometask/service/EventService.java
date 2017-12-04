@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.service;
 
-import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 
 import javax.annotation.Nonnull;
@@ -41,4 +40,11 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      */
     @Nonnull
     List<Event> findNextEvents(@Nonnull LocalDateTime to);
+
+    /**
+     * Delete event by id.
+     *
+     * @param eventId
+     */
+    void deleteEventById(long eventId);
 }

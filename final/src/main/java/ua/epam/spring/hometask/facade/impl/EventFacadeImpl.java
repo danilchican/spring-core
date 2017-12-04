@@ -38,7 +38,7 @@ public class EventFacadeImpl implements EventFacade {
 
     @Override
     public void delete(long eventId) {
-        eventService.findById(eventId).ifPresent(eventService::remove);
+        eventService.deleteEventById(eventId);
     }
 
     @Override

@@ -24,4 +24,12 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @return Set of events
      */
     List<Event> findEventsByAirDatesDateTimeBetween(LocalDateTime from, LocalDateTime to);
+
+    /**
+     * Delete event by id.
+     *
+     * @param eventId
+     * @return count of modified rows
+     */
+    Long deleteById(Long eventId);
 }
