@@ -51,7 +51,7 @@ public class EventServiceImpl implements EventService {
 
         /* Auditorium is not aired by date and time */
         if(foundedAirDate == null) {
-            AirDate airDateToSave = fillAndGetByParams(event, dateTime, auditorium);
+            AirDate airDateToSave = createAirDate(event, dateTime, auditorium);
             airDateService.addAirDate(airDateToSave);
 
             return true;
@@ -94,7 +94,7 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findAll();
     }
 
-    private AirDate fillAndGetByParams(Event event, LocalDateTime dateTime, Auditorium auditorium) {
+    private AirDate createAirDate(Event event, LocalDateTime dateTime, Auditorium auditorium) {
         AirDate date = new AirDate();
 
         date.setEvent(event);
