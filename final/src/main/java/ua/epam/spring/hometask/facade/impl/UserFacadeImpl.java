@@ -8,7 +8,9 @@ import ua.epam.spring.hometask.dto.UserDTO;
 import ua.epam.spring.hometask.facade.UserFacade;
 import ua.epam.spring.hometask.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class UserFacadeImpl implements UserFacade {
@@ -24,5 +26,19 @@ public class UserFacadeImpl implements UserFacade {
         return userService
                 .findUserByEmail(email)
                 .map(userConverter::convertToDTO);
+    }
+
+    @Override
+    public List<UserDTO> findAll() {
+        return userService.findAll()
+                .stream()
+                .map(userConverter::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO save(UserDTO user) {
+        User userEntity = userConverter.convertToEntity(user);
+        return userConverter.convertToDTO(userService.save(userEntity));
     }
 }
