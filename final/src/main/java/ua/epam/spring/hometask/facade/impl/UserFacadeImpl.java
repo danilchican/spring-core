@@ -20,11 +20,9 @@ public class UserFacadeImpl implements UserFacade {
     private Converter<User, UserDTO> userConverter;
 
     @Override
-    public UserDTO findUserByEmail(String email) {
-        Optional<User> user = userService.findUserByEmail(email);
-
-        return user.isPresent()
-                ? userConverter.convertToDTO(user.get())
-                : null;
+    public Optional<UserDTO> findUserByEmail(String email) {
+        return userService
+                .findUserByEmail(email)
+                .map(userConverter::convertToDTO);
     }
 }
