@@ -2,14 +2,13 @@ package ua.epam.spring.hometask.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ua.epam.spring.hometask.dto.TicketDTO;
 import ua.epam.spring.hometask.facade.BookingFacade;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/booking")
@@ -26,4 +25,11 @@ public class BookingController {
 
         return modelAndView;
     }
+
+    @PostMapping("/tickets/book")
+    public String bookTickets(@RequestParam("tickets") Set<TicketDTO> tickets) {
+        bookingFacade.bookTickets(tickets);
+        return "redirect:/booking";
+    }
+
 }

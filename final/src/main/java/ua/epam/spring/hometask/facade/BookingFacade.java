@@ -1,14 +1,20 @@
 package ua.epam.spring.hometask.facade;
 
-import ua.epam.spring.hometask.domain.Event;
-import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.dto.TicketDTO;
 
-import javax.annotation.Nonnull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface BookingFacade {
+
+    /**
+     * Books tickets in internal system. If user is not
+     * <code>null</code> in a ticket then booked tickets are saved with it
+     *
+     * @param tickets Set of tickets
+     */
+    void bookTickets(Set<TicketDTO> tickets);
 
     /**
      * Getting all purchased tickets for event on specific air date and time
