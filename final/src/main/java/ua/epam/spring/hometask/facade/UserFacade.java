@@ -30,4 +30,11 @@ public interface UserFacade {
      * @return saved user
      */
     UserDTO save(UserDTO user);
+
+    /**
+     * Remove user if exists.
+     *
+     * @param userId
+     */
+    void delete(long userId);
 }

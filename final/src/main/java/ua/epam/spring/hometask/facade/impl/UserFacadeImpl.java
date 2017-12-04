@@ -41,4 +41,9 @@ public class UserFacadeImpl implements UserFacade {
         User userEntity = userConverter.convertToEntity(user);
         return userConverter.convertToDTO(userService.save(userEntity));
     }
+
+    @Override
+    public void delete(long userId) {
+        userService.findById(userId).ifPresent(userService::remove);
+    }
 }
