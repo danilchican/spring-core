@@ -46,4 +46,9 @@ public class UserFacadeImpl implements UserFacade {
     public void delete(long userId) {
         userService.findById(userId).ifPresent(userService::remove);
     }
+
+    @Override
+    public Optional<UserDTO> findById(long userId) {
+        return userService.findById(userId).map(userConverter::convertToDTO);
+    }
 }

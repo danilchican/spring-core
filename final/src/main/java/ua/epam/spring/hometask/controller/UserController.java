@@ -15,14 +15,6 @@ public class UserController {
     @Autowired
     private UserFacade userFacade;
 
-    @GetMapping("/search/{email}")
-    public ModelAndView searchUserByEmail(@PathVariable("email") String email) {
-        ModelAndView modelAndView = new ModelAndView("users/view");
-        userFacade.findUserByEmail(email).ifPresent(user -> modelAndView.addObject("user", user));
-
-        return modelAndView;
-    }
-
     @GetMapping
     public String viewAll(Model model) {
         model.addAttribute("users", userFacade.findAll());
@@ -45,5 +37,21 @@ public class UserController {
     public String delete(@RequestParam("id") long userId) {
         userFacade.delete(userId);
         return "redirect:/users";
+    }
+
+    @GetMapping("/search/{email}")
+    public ModelAndView searchUserByEmail(@PathVariable("email") String email) {
+        ModelAndView modelAndView = new ModelAndView("users/view");
+        userFacade.findUserByEmail(email).ifPresent(user -> modelAndView.addObject("user", user));
+
+        return modelAndView;
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView viewUser(@PathVariable("id") long userId) {
+        ModelAndView modelAndView = new ModelAndView("users/view");
+        userFacade.findById(userId).ifPresent(user -> modelAndView.addObject("user", user));
+
+        return modelAndView;
     }
 }

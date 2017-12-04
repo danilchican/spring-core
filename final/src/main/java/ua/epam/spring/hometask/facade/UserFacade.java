@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.facade;
 
-import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.dto.UserDTO;
 
 import java.util.List;
@@ -37,4 +36,12 @@ public interface UserFacade {
      * @param userId
      */
     void delete(long userId);
+
+    /**
+     * Find user by id.
+     *
+     * @param userId
+     * @return founded user
+     */
+    Optional<UserDTO> findById(long userId);
 }
