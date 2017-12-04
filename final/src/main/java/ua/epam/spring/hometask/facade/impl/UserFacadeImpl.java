@@ -37,9 +37,9 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     @Override
-    public UserDTO save(UserDTO user) {
+    public void save(UserDTO user) {
         User userEntity = userConverter.convertToEntity(user);
-        return userConverter.convertToDTO(userService.save(userEntity));
+        userService.save(userEntity);
     }
 
     @Override

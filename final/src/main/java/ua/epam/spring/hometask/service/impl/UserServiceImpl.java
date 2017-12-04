@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
      * @return saved object with assigned id
      */
     @Override
-    public User save(@Nonnull User object) {
-        return userRepository.save(object);
+    public void save(@Nonnull User object) {
+        userRepository.save(object);
     }
 
     /**

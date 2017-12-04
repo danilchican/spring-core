@@ -26,9 +26,8 @@ public interface UserFacade {
      * Save new user.
      *
      * @param user to save
-     * @return saved user
      */
-    UserDTO save(UserDTO user);
+    void save(UserDTO user);
 
     /**
      * Remove user if exists.

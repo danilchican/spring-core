@@ -17,7 +17,7 @@ public interface AbstractDomainObjectService<T> {
      * @param object Object to save
      * @return saved object with assigned id
      */
-    T save(@Nonnull T object);
+    void save(@Nonnull T object);
 
     /**
      * Removing object from repository
