@@ -54,8 +54,8 @@ public class BookingServiceImpl implements BookingService {
 
     @Nonnull
     @Override
-    public List<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
-        return ticketRepository.findByAirDateEventIdAndAirDateDateTime(event.getId(), dateTime);
+    public List<Ticket> getPurchasedTicketsForEvent(long eventId, @Nonnull LocalDateTime dateTime) {
+        return ticketRepository.findByAirDateEventIdAndAirDateDateTime(eventId, dateTime);
     }
 
     /**

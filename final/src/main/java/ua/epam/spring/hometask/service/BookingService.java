@@ -41,10 +41,10 @@ public interface BookingService {
     /**
      * Getting all purchased tickets for event on specific air date and time
      *
-     * @param event    Event to get tickets for
+     * @param eventId    Event to get tickets for
      * @param dateTime Date and time of airing of event
      * @return set of all purchased tickets
      */
     @Nonnull
-    List<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime);
+    List<Ticket> getPurchasedTicketsForEvent(long eventId, @Nonnull LocalDateTime dateTime);
 }
