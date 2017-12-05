@@ -10,6 +10,7 @@ import ua.epam.spring.hometask.facade.AuditoriumFacade;
 import ua.epam.spring.hometask.service.AuditoriumService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class AuditoriumFacadeImpl implements AuditoriumFacade {
     public List<AuditoriumDTO> findAll() {
         return auditoriumService.findAll()
                 .stream()
+                .filter(Objects::nonNull)
                 .map(auditoriumConverter::convertToDTO)
                 .collect(Collectors.toList());
     }

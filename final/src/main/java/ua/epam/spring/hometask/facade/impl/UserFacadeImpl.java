@@ -10,6 +10,7 @@ import ua.epam.spring.hometask.facade.UserFacade;
 import ua.epam.spring.hometask.service.UserService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public class UserFacadeImpl implements UserFacade {
     public List<UserDTO> findAll() {
         return userService.findAll()
                 .stream()
+                .filter(Objects::nonNull)
                 .map(userConverter::convertToDTO)
                 .collect(Collectors.toList());
     }

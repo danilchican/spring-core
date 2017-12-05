@@ -11,6 +11,7 @@ import ua.epam.spring.hometask.service.BookingService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public void bookTickets(Set<TicketDTO> tickets) {
         Set<Ticket> convertedTickets = tickets
                 .stream()
+                .filter(Objects::nonNull)
                 .map(ticketConverter::convertToEntity)
                 .collect(Collectors.toSet());
 
@@ -44,6 +46,7 @@ public class BookingFacadeImpl implements BookingFacade {
     public List<TicketDTO> findPurchasedTicketsForEvent(long eventId, LocalDateTime dateTime) {
         return bookingService.getPurchasedTicketsForEvent(eventId, dateTime)
                 .stream()
+                .filter(Objects::nonNull)
                 .map(ticketConverter::convertToDTO)
                 .collect(Collectors.toList());
     }

@@ -11,6 +11,7 @@ import ua.epam.spring.hometask.service.EventService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class EventFacadeImpl implements EventFacade {
     public List<EventDTO> findAll() {
         return eventService.findAll()
                 .stream()
+                .filter(Objects::nonNull)
                 .map(eventConverter::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -57,6 +59,7 @@ public class EventFacadeImpl implements EventFacade {
     public List<EventDTO> findForDateRange(LocalDateTime from, LocalDateTime to) {
         return eventService.findForDateRange(from, to)
                 .stream()
+                .filter(Objects::nonNull)
                 .map(eventConverter::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -65,6 +68,7 @@ public class EventFacadeImpl implements EventFacade {
     public List<EventDTO> findNextEvents(LocalDateTime to) {
         return eventService.findNextEvents(to)
                 .stream()
+                .filter(Objects::nonNull)
                 .map(eventConverter::convertToDTO)
                 .collect(Collectors.toList());
     }
