@@ -31,6 +31,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Delete user by id.
+     *
+     * @param userId
+     */
+    @Override
+    public void deleteUserById(long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    /**
      * Saving new object to repository or updating existing one
      *
      * @param object Object to addAirDate

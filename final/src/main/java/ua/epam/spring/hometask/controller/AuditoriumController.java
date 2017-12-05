@@ -23,7 +23,7 @@ public class AuditoriumController {
     }
 
     @GetMapping("/search/{name}")
-    public ModelAndView searchUserByEmail(@PathVariable("name") String name) {
+    public ModelAndView searchAuditoriumByName(@PathVariable("name") String name) {
         ModelAndView modelAndView = new ModelAndView("auditoriums/view");
 
         auditoriumFacade

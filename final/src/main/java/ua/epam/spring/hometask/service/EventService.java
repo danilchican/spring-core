@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.service;
 
-import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 
 import javax.annotation.Nonnull;
@@ -43,23 +42,9 @@ public interface EventService extends AbstractDomainObjectService<Event> {
     List<Event> findNextEvents(@Nonnull LocalDateTime to);
 
     /**
-     * Adding date and time of event air and assigning auditorium to that
+     * Delete event by id.
      *
-     * @param event      Event to add air date and time
-     * @param dateTime   Date and time to add
-     * @param auditorium Auditorium to add if success in date time add
-     * @return <code>true</code> if successful, <code>false</code> if already
-     * there
+     * @param eventId
      */
-    boolean addAirDateTime(Event event, LocalDateTime dateTime, Auditorium auditorium);
-
-    /**
-     * Removes the air date of event by assigned auditorium.
-     *
-     * @param event      Event to find air date
-     * @param auditorium Auditorium to find air date
-     * @param dateTime   Date and time to remove
-     * @return <code>true</code> if successful, <code>false</code> if not there
-     */
-    boolean removeAirDateTime(Event event, Auditorium auditorium, LocalDateTime dateTime);
+    void deleteEventById(long eventId);
 }

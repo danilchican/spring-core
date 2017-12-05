@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.facade.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.converter.Converter;
 import ua.epam.spring.hometask.domain.Auditorium;
@@ -9,6 +10,7 @@ import ua.epam.spring.hometask.facade.AuditoriumFacade;
 import ua.epam.spring.hometask.service.AuditoriumService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,12 +21,14 @@ public class AuditoriumFacadeImpl implements AuditoriumFacade {
     private AuditoriumService auditoriumService;
 
     @Autowired
+    @Qualifier("auditoriumConverter")
     private Converter<Auditorium, AuditoriumDTO> auditoriumConverter;
 
     @Override
     public List<AuditoriumDTO> findAll() {
         return auditoriumService.findAll()
                 .stream()
+                .filter(Objects::nonNull)
                 .map(auditoriumConverter::convertToDTO)
                 .collect(Collectors.toList());
     }
