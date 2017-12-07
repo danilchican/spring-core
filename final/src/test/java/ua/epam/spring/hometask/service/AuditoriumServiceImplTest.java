@@ -38,21 +38,21 @@ public class AuditoriumServiceImplTest {
     public void getByName_ReturnsOptionalAuditorium_WhenAuditoriumWithSuchNameExists() throws Exception {
         when(auditoriumRepository.findFirstByName(anyString())).thenReturn(auditorium);
 
-        Optional<Auditorium> actual = auditoriumService.getByName("auditorium name");
+        Optional<Auditorium> actual = auditoriumService.findByName("auditorium name");
         assertTrue(actual.isPresent());
     }
 
     @Test
     public void getByName_ReturnsEmpty_WhenAuditoriumWithSuchNameDoesntExist() throws Exception {
         when(auditoriumRepository.findFirstByName(anyString())).thenReturn(null);
-        Optional<Auditorium> actual = auditoriumService.getByName("auditorium name");
+        Optional<Auditorium> actual = auditoriumService.findByName("auditorium name");
 
         assertFalse(actual.isPresent());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getByName_InvalidName_ExceptionThrown() throws Exception {
-        auditoriumService.getByName(null);
+        auditoriumService.findByName(null);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class AuditoriumServiceImplTest {
         List<Auditorium> auditoriums = new ArrayList<>();
         when(auditoriumRepository.findAll()).thenReturn(auditoriums);
 
-        Collection<Auditorium> collection = auditoriumService.getAll();
+        Collection<Auditorium> collection = auditoriumService.findAll();
         assertThat(collection, is(notNullValue()));
     }
 }

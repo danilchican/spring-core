@@ -6,16 +6,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ua.epam.spring.hometask.dao.AuditoriumDAO;
-import ua.epam.spring.hometask.dao.TicketDAO;
 import ua.epam.spring.hometask.domain.*;
+import ua.epam.spring.hometask.repository.AirDateRepository;
+import ua.epam.spring.hometask.repository.AuditoriumRepository;
+import ua.epam.spring.hometask.repository.TicketRepository;
 import ua.epam.spring.hometask.service.impl.BookingServiceImpl;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -26,10 +24,13 @@ import static org.mockito.Mockito.*;
 public class BookingServiceImplTest {
 
     @Mock
-    private TicketDAO ticketDAO;
+    private TicketRepository ticketRepository;
 
     @Mock
-    private AuditoriumDAO auditoriumDAO;
+    private AuditoriumRepository auditoriumRepository;
+
+    @Mock
+    private AirDateRepository airDateRepository;
 
     @Mock
     private Event event;
@@ -44,12 +45,6 @@ public class BookingServiceImplTest {
     private Ticket ticket;
 
     @Mock
-    private Set<Ticket> tickets;
-
-    @Mock
-    private Set<Long> seats;
-
-    @Mock
     private static Map<EventRating, Double> ratingCoefficients;
 
     @Mock
@@ -62,25 +57,28 @@ public class BookingServiceImplTest {
     @Ignore
     public void getTicketsPrice_ReturnsTicketsPrice_WhenArgumentsAreValid() throws Exception {
         LocalDateTime dateTime = LocalDateTime.now();
+        Set<Long> seats = new HashSet<>();
 
-        when(auditoriumDAO.findAuditoriumOnDateTime(event.getAuditoriums(), dateTime)).thenReturn(auditorium);
+        when(airDateRepository.findByEventIdAndDateTime(event.getId(), dateTime)).thenReturn(auditorium);
         // TODO fail when(ratingCoefficients.get(event.getRating())).thenReturn(anyDouble());
 
         bookingService.getTicketsPrice(event, dateTime, user, seats);
 
         verify(discountService, times(1)).getDiscount(user, event, dateTime, anyInt());
-        verify(auditoriumDAO, times(1)).findAuditoriumOnDateTime(event.getAuditoriums(), dateTime);
+        verify(airDateRepository, times(1)).findByEventIdAndDateTime(event.getId(), dateTime);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getTicketsPrice_InvalidSomeNonnullArgument_ExceptionThrown() throws Exception {
+        Set<Long> seats = new HashSet<>();
         bookingService.getTicketsPrice(event, null, user, seats);
     }
 
     @Test
     public void bookTickets_ReturnsNothing_WhenTicketsIsEmpty() throws Exception {
+        Set<Ticket> tickets = new HashSet<>();
         bookingService.bookTickets(tickets);
-        verify(ticketDAO, never()).save(ticket);
+        verify(ticketRepository, never()).save(ticket);
     }
 
     @Test
@@ -90,7 +88,7 @@ public class BookingServiceImplTest {
         }};
 
         bookingService.bookTickets(tickets);
-        verify(ticketDAO, times(1)).save(ticket);
+        verify(ticketRepository, times(1)).save(ticket);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -100,15 +98,16 @@ public class BookingServiceImplTest {
 
     @Test
     public void getPurchasedTicketsForEvent_ReturnsSetOfTickets_WhenEventAndDateIsNotNull() throws Exception {
+        List<Ticket> tickets = new ArrayList<>();
         LocalDateTime dateTime = LocalDateTime.now();
-        when(ticketDAO.getPurchasedTicketsForEvent(event, dateTime)).thenReturn(tickets);
+        when(ticketRepository.findByAirDateEventIdAndAirDateDateTime(event.getId(), dateTime)).thenReturn(tickets);
 
-        Collection<Ticket> collection = bookingService.getPurchasedTicketsForEvent(event, dateTime);
+        Collection<Ticket> collection = bookingService.getPurchasedTicketsForEvent(event.getId(), dateTime);
         assertThat(collection, is(notNullValue()));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getPurchasedTicketsForEvent_InvalidDateTime_ExceptionThrown() throws Exception {
-        bookingService.getPurchasedTicketsForEvent(event, null);
+        bookingService.getPurchasedTicketsForEvent(event.getId(), null);
     }
 }

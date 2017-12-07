@@ -40,29 +40,27 @@ public class UserServiceImplTest {
     public void getUserByEmail_ReturnsOptionalUser_WhenUserWithSuchEmailExists() throws Exception {
         when(userRepository.findFirstByEmail(anyString())).thenReturn(user);
 
-        Optional<User> actual = userService.getUserByEmail("danilchican@mail.ru");
+        Optional<User> actual = userService.findUserByEmail("danilchican@mail.ru");
         assertTrue(actual.isPresent());
     }
 
     @Test
     public void getUserByEmail_ReturnsEmpty_WhenUserWithSuchEmailDoesntExist() throws Exception {
         when(userRepository.findFirstByEmail(anyString())).thenReturn(null);
-        Optional<User> actual = userService.getUserByEmail("danilchican@mail.ru");
+        Optional<User> actual = userService.findUserByEmail("danilchican@mail.ru");
 
         assertFalse(actual.isPresent());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getUserByEmail_InvalidEmail_ExceptionThrown() throws Exception {
-        userService.getUserByEmail(null);
+        userService.findUserByEmail(null);
     }
 
     @Test
     public void save_ReturnsSavedOrUpdatedUser_WhenUserPassed() throws Exception {
-        when(userRepository.save(user)).thenReturn(user);
-
-        User actual = userService.save(user);
-        assertNotNull(actual);
+        userService.save(user);
+        verify(userRepository, times(1)).save(user);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -102,7 +100,7 @@ public class UserServiceImplTest {
         List<User> users = new ArrayList<>();
         when(userRepository.findAll()).thenReturn(users);
 
-        Collection<User> collection = userService.getAll();
+        Collection<User> collection = userService.findAll();
         assertThat(collection, is(notNullValue()));
     }
 }
