@@ -1,5 +1,7 @@
 package ua.epam.spring.hometask.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -7,7 +9,10 @@ public class UserDTO extends AbstractDTO {
     private String firstName;
     private String lastName;
     private String email;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
+
     private Set<TicketDTO> tickets;
 
     public String getFirstName() {

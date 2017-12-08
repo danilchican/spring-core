@@ -20,13 +20,13 @@ public class BookingRestController {
     @Autowired
     private BookingFacade bookingFacade;
 
-    @GetMapping("/purchased/{event-id}")
+    @RequestMapping(value = "/purchased/{event-id}", method = RequestMethod.GET)
     public HttpEntity<Collection> viewPurchasedTicketsForEvent(@PathVariable("event-id") int eventId,
                                                                @RequestParam("date") LocalDateTime date) {
         return new ResponseEntity<>(bookingFacade.findPurchasedTicketsForEvent(eventId, date), HttpStatus.OK);
     }
 
-    @PostMapping("/tickets")
+    @RequestMapping(value = "/tickets", method = RequestMethod.POST)
     public HttpEntity<HttpStatus> bookTickets(@RequestParam("tickets") Set<TicketDTO> tickets) {
         bookingFacade.bookTickets(tickets);
         return ResponseEntity.noContent().build();

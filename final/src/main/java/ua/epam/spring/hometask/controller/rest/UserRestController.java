@@ -17,8 +17,7 @@ public class UserRestController {
     @Autowired
     private UserFacade userFacade;
 
-    @ResponseBody
-    @PostMapping("/create")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public HttpEntity<UserDTO> save(@RequestBody UserDTO userDto) {
         userFacade.save(userDto);
 
@@ -27,23 +26,20 @@ public class UserRestController {
                 .orElse(ResponseEntity.noContent().build());
     }
 
-    @ResponseBody
-    @DeleteMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public HttpEntity<HttpStatus> delete(@PathVariable("id") long userId) {
         userFacade.delete(userId);
         return ResponseEntity.noContent().build();
     }
 
-    @ResponseBody
-    @GetMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public HttpEntity<UserDTO> findUser(@PathVariable("id") long userId) {
         return userFacade.findById(userId)
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElse(ResponseEntity.noContent().build());
     }
 
-    @ResponseBody
-    @GetMapping("/search")
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public HttpEntity<UserDTO> searchUserByEmail(@RequestParam("email") String email) {
         System.out.println(email);
         return userFacade.findUserByEmail(email)
@@ -51,8 +47,7 @@ public class UserRestController {
                 .orElse(ResponseEntity.noContent().build());
     }
 
-    @ResponseBody
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public HttpEntity<Collection> findAll() {
         return new ResponseEntity<>(userFacade.findAll(), HttpStatus.OK);
     }
