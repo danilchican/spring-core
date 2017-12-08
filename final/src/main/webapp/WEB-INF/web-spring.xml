@@ -29,6 +29,9 @@
     <bean id="jsonMessageConverter"
           class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 
+    <bean id="methodValidationPostProcessor"
+          class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
+
     <import resource="classpath:spring.xml"/>
 
     <mvc:annotation-driven/>
