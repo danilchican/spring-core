@@ -29,6 +29,8 @@
     <bean id="jsonMessageConverter"
           class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 
+    <import resource="classpath:spring.xml"/>
+
     <mvc:annotation-driven/>
 
     <context:component-scan base-package="ua.epam.spring.hometask"/>

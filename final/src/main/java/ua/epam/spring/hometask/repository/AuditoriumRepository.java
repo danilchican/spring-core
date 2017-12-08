@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.repository;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ua.epam.spring.hometask.domain.Auditorium;
 

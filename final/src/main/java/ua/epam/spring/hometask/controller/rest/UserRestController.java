@@ -11,7 +11,7 @@ import ua.epam.spring.hometask.facade.UserFacade;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserRestController {
 
     @Autowired
