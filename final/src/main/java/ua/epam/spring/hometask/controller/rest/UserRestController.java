@@ -43,8 +43,9 @@ public class UserRestController {
     }
 
     @ResponseBody
-    @GetMapping("/search/{email}")
-    public HttpEntity<UserDTO> searchUserByEmail(@PathVariable("email") String email) {
+    @GetMapping("/search")
+    public HttpEntity<UserDTO> searchUserByEmail(@RequestParam("email") String email) {
+        System.out.println(email);
         return userFacade.findUserByEmail(email)
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElse(ResponseEntity.noContent().build());
