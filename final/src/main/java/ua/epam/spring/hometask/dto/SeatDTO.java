@@ -1,9 +1,24 @@
 package ua.epam.spring.hometask.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
+
 public class SeatDTO extends AbstractDTO {
+
+    @NotNull
     private AuditoriumDTO auditorium;
+
+    @NotNull
+    @NotBlank
     private boolean vip;
+
+    @NotNull
+    @NotBlank
     private int number;
+
+    @NotNull
+    @NotBlank
     private int row;
 
     public AuditoriumDTO getAuditorium() {
