@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="hometask-skeleton:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="hometask-skeleton-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="hometask-skeleton:war exploded" />
+    </root>
+  </artifact>
+</component>
