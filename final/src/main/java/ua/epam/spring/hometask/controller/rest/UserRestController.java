@@ -53,7 +53,7 @@ public class UserRestController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public HttpEntity<Collection> index() {
+    public HttpEntity<Collection> viewAll() {
         return new ResponseEntity<>(userFacade.findAll(), HttpStatus.OK);
     }
 }

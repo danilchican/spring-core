@@ -21,7 +21,7 @@ public class UserController {
     private UserFacade userFacade;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(Model model) {
+    public String viewAll(Model model) {
         model.addAttribute("users", userFacade.findAll());
         return "users/view/index";
     }

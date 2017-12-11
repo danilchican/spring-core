@@ -24,7 +24,7 @@ public class EventController {
     private EventFacade eventFacade;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(Model model) {
+    public String viewAll(Model model) {
         model.addAttribute("events", eventFacade.findAll());
         return "events/view/index";
     }

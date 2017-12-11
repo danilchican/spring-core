@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,13 @@ public class ExceptionControllerAdvisor {
         e.getConstraintViolations()
                 .stream()
                 .filter(violation -> violation.getPropertyPath() != null)
-                .forEach(violation -> {
-                    String key = violation.getPropertyPath().toString();
-                    errors.put(key, violation.getMessage());
-                });
+                .forEach(violation -> putError(violation, errors));
 
         response.put("errors", errors);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    private void putError(ConstraintViolation<?> violation, Map<String, String> errors) {
+        errors.put(violation.getPropertyPath().toString(), violation.getMessage());
     }
 }

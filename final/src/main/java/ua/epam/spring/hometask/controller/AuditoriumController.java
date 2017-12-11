@@ -21,7 +21,7 @@ public class AuditoriumController {
     private AuditoriumFacade auditoriumFacade;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(Model model) {
+    public String viewAll(Model model) {
         model.addAttribute("auditoriums", auditoriumFacade.findAll());
         return "auditoriums/view/index";
     }
