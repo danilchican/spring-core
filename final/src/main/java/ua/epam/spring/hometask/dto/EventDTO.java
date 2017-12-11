@@ -1,13 +1,28 @@
 package ua.epam.spring.hometask.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
 import ua.epam.spring.hometask.domain.EventRating;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class EventDTO extends AbstractDTO {
+
+    @NotNull
+    @NotBlank
+    @Size(min = 3, max = 255)
     private String name;
+
+    @NotNull
+    @NotBlank
     private double basePrice;
+
+    @NotNull
     private Set<AirDateDTO> airDates;
+
+    @NotNull
+    @NotBlank
     private EventRating rating;
 
     public String getName() {

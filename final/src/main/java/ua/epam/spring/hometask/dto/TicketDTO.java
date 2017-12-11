@@ -1,9 +1,18 @@
 package ua.epam.spring.hometask.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class TicketDTO extends AbstractDTO {
+
+    @NotNull
     private UserDTO user;
+
+    @NotNull
     private SeatDTO seat;
+
+    @NotNull
     private AirDateDTO airDate;
+
     private double ticketPrice;
 
     public UserDTO getUser() {
